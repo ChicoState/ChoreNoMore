@@ -1,6 +1,3 @@
 # ChoreNoMore
 ---
-To build Dockerfile:  <br>
-- docker build -t chore-no-more . <br>
-After building the Docker image, run the following command to run the development server: <br>
-- docker run -p 3000:3000 -it chore-no-more <br>
+To run development server, cd into chore-no-more and run docker compose up --build
