@@ -4,6 +4,7 @@
     border: 1px solid #ccc;
     position: relative;
     border-radius: 2px;
+    display: inline-block;
 }
   
 .dropdown-input {

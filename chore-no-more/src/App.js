@@ -1,4 +1,5 @@
 import './App.css';
+import './createChores.css'
 
 //https://www.robinwieruch.de/react-add-item-to-list/
 
@@ -41,7 +42,7 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <div className="createChores">
       <h1>Add Chores</h1>
       <p>
         Chore Name
