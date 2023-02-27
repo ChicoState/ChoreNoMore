@@ -3,8 +3,10 @@ import './App.css';
 //https://www.robinwieruch.de/react-add-item-to-list/
 
 import React from "react"
+import Dropdown from "./Dropdown";
 
-const initialChores = [
+//list that stores the initial chores list
+const initialChores = [ 
   {
     name: "Test",
     date: "2023-02-20",
@@ -14,41 +16,51 @@ const initialChores = [
 ];
 
 const App = () => {
-  const [chores, setChores] = React.useState(initialChores);
-  const [name, setName] = React.useState('')
-  const [date, setDate] = React.useState('')
-  const [frequency, setFrequency] = React.useState('')
-  const [completed, setCompleted] = React.useState('')
+  //constants
+  const [chores, setChores] = React.useState(initialChores); //sets chores
+  const [name, setName] = React.useState('') //sets name of chore
+  const [date, setDate] = React.useState('') //sets date of chore
+  const [frequency, setFrequency] = React.useState('') //sets frequency of chore
+  const frequencyOptions = [
+    {value: "daily", label: "Daily"},
+    {value: "weekly", label: "Weekly"},
+    {value: "monthly", label: "Monthly"},
+  ]; //sets options for frequency dropdown
+
+
+  //filtering chores list into two separate lists-- completed and incomplete
   const completedChores = chores.filter(item => item.completed === true);
   const incompleteChores = chores.filter(item => item.completed === false);
 
   function handleAdd () {
+    //takes user input and adds it to the chores list
+    const completed = false;
     const newList = chores.concat({ name, date, completed, frequency });
     setChores(newList);
-    console.log(name, date, completed)
+    console.log(name, date, frequency)
   }
 
   return (
     <div className="App">
       <h1>Add Chores</h1>
       <p>
+        Chore Name
         <input placeholder="Chore Name" value={name} onChange={e => setName(e.target.value)} />
+        Last completed
         <input type="date" value={date} onChange={e => setDate(e.target.value)} />
-        <input placeholder="Weekly, Daily, Monthly?" value={frequency} onChange={e => setFrequency(e.target.value)} />
-        Completed?
-        <input type="checkbox" checked={completed} onChange={e => setCompleted(e.target.checked)} />
+        <Dropdown placeHolder="Frequency?" options={frequencyOptions} onChange={(value) => setFrequency(value.value)} />
         <button onClick={handleAdd}>Add Chore</button>
       </p>
       <h1>To-Do</h1>
       <p>
         {incompleteChores.map((item) => (
-          <li>{item.name} {item.date}</li>
+          <li key="{item.name}">{item.name} {item.date}</li>
         ))}
       </p>
       <h1>Completed</h1>
       <p>
         {completedChores.map((item) => (
-          <li>{item.name} {item.date}</li>
+          <li key="{item.name}">{item.name} {item.date}</li>
         ))}
       </p>
     </div>
