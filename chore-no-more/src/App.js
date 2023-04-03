@@ -3,6 +3,14 @@ import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth
 import DateTimePicker from 'react-datetime-picker';
 import { useState } from 'react';
 import Dropdown from "./Dropdown";
+import { createClient} from '@supabase/supabase-js';
+import {SessionContextProvider} from '@supabase/auth-helpers-react';
+
+const supabase = createClient(
+  "https://wqamrjqdnsnboscermtz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxYW1yanFkbnNuYm9zY2VybXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzc2MDU0MjQsImV4cCI6MTk5MzE4MTQyNH0.pI8ucJfxK3Qgx1oGoZRXfYpzIjoxwY2_BqXH0qls7jA"
+);
+
 const initialChores = [ 
   {
     eventName: "Test",
@@ -13,6 +21,9 @@ const initialChores = [
 ];
 
 function App() {
+  const [ groupName, setGroupName] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
   const [ chores, setChores] = useState(initialChores);
   const [ start, setStart ] = useState(new Date());
   const [ end, setEnd ] = useState(new Date());
@@ -22,17 +33,42 @@ function App() {
   const session = useSession(); // tokens, when session exists we have a user
   const supabase = useSupabaseClient(); // talk to supabase!
   const { isLoading } = useSessionContext();
-  const [frequency, setFrequency] = useState('')
+  const [frequency, setFrequency] = useState('');
   const frequencyOptions = [
     {value: "daily", label: "Daily"},
     {value: "weekly", label: "Weekly"},
     {value: "monthly", label: "Monthly"},
   ];
 
+  
   const completedChores = chores.filter(item => item.completed === true);
   const incompleteChores = chores.filter(item => item.completed === false);
 
-  
+  async function supabaseSignUp() {
+    console.log(email, password);
+    const { errorSignUp } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+    if(errorSignUp){
+      alert("Error logging in with email with Supabase");
+      console.log(errorSignUp);
+    }
+    const { error } = await supabase
+      .from('Users')
+      .insert({ Email: email })
+    if(error){
+      alert("Failed to add to database");
+      console.log(error);
+  } 
+ 
+  }
+  async function supabaseSignIn(){
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+  }
   if(isLoading) {
     return <></>
   }
@@ -48,12 +84,29 @@ function App() {
       alert("Error logging in to Google provider with Supabase");
       console.log(error);
     }
-  }
-
+  } 
   async function signOut() {
     await supabase.auth.signOut();
   }
-
+  async function addGroup(){
+    const { error } = await supabase
+    .rpc('append_array', {new_element: 1000000, id: session.user.email});
+    if(error) {
+      alert("Adding group ID to user table is not working");
+      console.log(error);
+    }
+  }
+  async function createGroup() {
+    const { error } = await supabase
+    .from('Groups')
+    .insert({ Members: [session.user.email], Name: groupName, Editors: [session.user.email] })
+    addGroup();
+    if(error){
+      alert("Error creating group");
+      console.log(error);
+    }
+  }
+  
   async function createCalendarEvent() {
     console.log("Creating calendar event");
     const newList = chores.concat({ eventName, start, completed, eventDescription, frequency });
@@ -123,14 +176,11 @@ function App() {
             <button onClick={() => createCalendarEvent()}>Create Calendar Event</button>
             <p></p>
             <button onClick={() => signOut()}>Sign Out</button>
-          </>
-          :
-          <>
-            <button onClick={() => googleSignIn()}>Sign In With Google</button>
-          </>
-        }
-      </div>
-      <h1>To-Do</h1>
+            <form>
+              <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
+              <button onClick={() => createGroup()}> Create Group</button>
+            </form>
+            <h1>To-Do</h1>
       <p>
         {incompleteChores.map((item) => (
           <li key="{item.eventName}">{item.eventName}</li>
@@ -142,8 +192,34 @@ function App() {
           <li key="{item.eventName}">{item.eventName}</li>
         ))}
       </p>
+          </>
+          :
+          <><form> Create Account <br></br>
+            Email:<br></br>
+            <input type="text" onChange={(e) => setEmail(e.target.value)} /><br></br>
+            Password:<br></br>
+            <input type="password" onChange={(e) => setPassword(e.target.value)} /><br></br>
+            <button onClick={() => supabaseSignUp()}>Create Account</button>
+          </form>
+          <form> Sign In <br></br>
+          Email:<br></br>
+          <input type="text" onChange={(e) => setEmail(e.target.value)} /><br></br>
+          Password:<br></br>
+          <input type="password" onChange={(e) => setPassword(e.target.value)} /><br></br>
+          <button onClick={() => supabaseSignIn()}>Sign In</button>
+          </form><br></br>
+          <button onClick={() => googleSignIn()}>Sign In With Google</button>
+          </>
+
+       
+
+        }
+      </div>
+
     </div>
   );
 }
+    
+
 
 export default App;
