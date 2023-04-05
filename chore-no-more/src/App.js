@@ -2,6 +2,7 @@ import './App.css';
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import DateTimePicker from 'react-datetime-picker';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import Dropdown from "./Dropdown";
 const initialChores = [ 
   {
@@ -14,6 +15,9 @@ const initialChores = [
 
 function App() {
   const [ chores, setChores] = useState(initialChores);
+  //const [fetchError, setFetchError] = useState(null);
+  //const [ chores, setChores] = useState(null);
+  const [chore_name, setChores_name] = useState(null);
   const [ start, setStart ] = useState(new Date());
   const [ end, setEnd ] = useState(new Date());
   const [ completed, setCompleted ] = useState(false);
@@ -32,10 +36,10 @@ function App() {
   const completedChores = chores.filter(item => item.completed === true);
   const incompleteChores = chores.filter(item => item.completed === false);
 
-  
-  if(isLoading) {
-    return <></>
-  }
+ /* useEffect (() => {
+    fetchChores()
+  },[]) */
+
 
   async function googleSignIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -48,17 +52,38 @@ function App() {
       alert("Error logging in to Google provider with Supabase");
       console.log(error);
     }
+   //await fetchChores();
   }
+
+  
+
 
   async function insertChores(){
     const {data , error} = await supabase.from('Chores')
-    .insert([{id: 1, Chore: eventName, Created: session.user.email}]);
+    .insert([{Chore: eventName, Created: session.user.email}]);
     if(error){
       console.log(error);
     }else{
       console.log(data);
     }
   }
+
+  async function fetchChores(){
+    const {data , error} = await supabase
+    .from('Chores')
+    .select('Chore')
+    .eq('Created', session.user.email)
+
+    if(error){
+      console.log(error);
+    }else{
+      console.log(session.user.email)
+      console.log(data);
+      setChores_name(data);
+      //return data;
+    }
+  }
+
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -97,9 +122,15 @@ function App() {
     });
     await insertChores();
   }
+
   const handleChange = (event) => {
     setCompleted(event.target.checked);
   }
+
+  if(isLoading) {
+    return <></>
+  }
+
   console.log(session);
   console.log(start);
   console.log(eventName);
@@ -110,6 +141,7 @@ function App() {
       <div style={{width: "400px", margin: "30px auto"}}>
         {session ?
           <>
+          <body onload = {fetchChores()}></body>
             <h2>Hey there {session.user.email}</h2>
             <p>Start of your event</p>
             <DateTimePicker onChange={setStart} value={start} />
@@ -143,10 +175,12 @@ function App() {
       </div>
       <h1>To-Do</h1>
       <p>
-        {incompleteChores.map((item) => (
-          <li key="{item.eventName}">{item.eventName}</li>
-        ))}
-        
+        {chore_name && (
+          <div className="chore_name" >
+            {chore_name.map(chore_name =>
+              (<p>{chore_name.Chore}</p>))}
+          </div>
+        )}
       </p>
       <h1>Completed</h1>
       <p>
