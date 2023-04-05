@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { createClient } from '@supabase/supabase-js';
 import './App.css';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { Groups } from './components/Groups';
@@ -9,7 +7,6 @@ import { Stylesheet } from './components/Stylesheet'
 import Navbar from './Navbar'
 
 
-
 function App() {
   const { isLoading } = useSessionContext();
   const session = useSession();
@@ -17,9 +14,6 @@ function App() {
   if (isLoading) {
     return <>Loading...</>
   }
-
-  const completedChores = chores.filter(item => item.completed === true);
-  const incompleteChores = chores.filter(item => item.completed === false);
 
   return (
     <div className="App">
