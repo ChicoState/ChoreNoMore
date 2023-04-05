@@ -39,6 +39,7 @@ function App() {
     {value: "weekly", label: "Weekly"},
     {value: "monthly", label: "Monthly"},
   ];
+  var done = false;
 
   
   const completedChores = chores.filter(item => item.completed === true);
@@ -51,7 +52,7 @@ function App() {
       password: password,
     });
     if(errorSignUp){
-      alert("Error logging in with email with Supabase");
+      alert("Error signing up with email with Supabase");
       console.log(errorSignUp);
     }
     const { error } = await supabase
@@ -69,9 +70,6 @@ function App() {
       password: password,
     })
   }
-  if(isLoading) {
-    return <></>
-  }
 
   async function googleSignIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -85,28 +83,60 @@ function App() {
       console.log(error);
     }
   } 
-  async function signOut() {
-    await supabase.auth.signOut();
+  async function runOnce(){
+    if(!done){
+      done = true; 
+      googleAddEmail();
+    }
   }
-  async function addGroup(){
+  async function googleAddEmail() {
     const { error } = await supabase
-    .rpc('append_array', {new_element: 1000000, id: session.user.email});
-    if(error) {
-      alert("Adding group ID to user table is not working");
+      .from('Users')
+      .insert({ Email: session.user.email });
+    if(error){
+      //alert("Failed to add to database");
       console.log(error);
     }
+  }
+
+  async function signOut() {
+    await supabase.auth.signOut();
   }
   async function createGroup() {
     const { error } = await supabase
     .from('Groups')
     .insert({ Members: [session.user.email], Name: groupName, Editors: [session.user.email] })
-    addGroup();
+    countGroup();
     if(error){
-      alert("Error creating group");
       console.log(error);
     }
   }
+
+  async function countGroup(){
+    const { error, count } = await supabase
+    .from('Groups')
+    .select('id', {count: 'exact', head: true})
+    if(count){
+      console.log(count)
+      addGroup(count)
+    }
+    //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
+    if(error) {
+      alert("Adding group ID to user table is not working")
+      console.log(error)
+    }
+  }
+  async function addGroup(count){
+    const { error } = await supabase
+    .rpc('append_array', {new_element: count, email: session.user.email})
+    console.log(session.user.email);
+  }
+
   
+  if(isLoading) {
+    return <></>
+  }
+
   async function createCalendarEvent() {
     console.log("Creating calendar event");
     const newList = chores.concat({ eventName, start, completed, eventDescription, frequency });
@@ -143,15 +173,16 @@ function App() {
     setCompleted(event.target.checked);
   }
   console.log(session);
-  console.log(start);
-  console.log(eventName);
-  console.log(eventDescription);
-  console.log(completed);
+  //console.log(start);
+  //console.log(eventName);
+  //console.log(eventDescription);
+  //console.log(completed);
   return (
     <div className="App">
       <div style={{width: "400px", margin: "30px auto"}}>
         {session ?
           <>
+            <body onload = {runOnce()}></body>
             <h2>Hey there {session.user.email}</h2>
             <p>Start of your event</p>
             <DateTimePicker onChange={setStart} value={start} />
@@ -176,10 +207,9 @@ function App() {
             <button onClick={() => createCalendarEvent()}>Create Calendar Event</button>
             <p></p>
             <button onClick={() => signOut()}>Sign Out</button>
-            <form>
-              <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
-              <button onClick={() => createGroup()}> Create Group</button>
-            </form>
+            <br></br>
+            <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
+            <button onClick={() => createGroup()}> Create Group</button>
             <h1>To-Do</h1>
       <p>
         {incompleteChores.map((item) => (
@@ -194,7 +224,8 @@ function App() {
       </p>
           </>
           :
-          <><form> Create Account <br></br>
+          <>
+          <form> Create Account <br></br>
             Email:<br></br>
             <input type="text" onChange={(e) => setEmail(e.target.value)} /><br></br>
             Password:<br></br>
