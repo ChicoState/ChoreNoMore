@@ -1,5 +1,4 @@
 import './App.css';
-import { useState } from 'react';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { supabase } from './supabaseClient';
 import { TaskChores } from './components/TaskChores';
@@ -17,7 +16,7 @@ function App() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        scopes: 'https://www.googleapis.com/auth/calendar'
+        scopes: 'https://www.googleapis.com/auth/tasks'
       }
     });
     if(error) {
@@ -36,10 +35,11 @@ function App() {
         {session ?
           <>
             <TaskChores />
-            <button onClick={() => signOut()}>Sign Out</button>
+            <button onClick={() => signOut()}>Sign Out of Google</button>
           </>
           :
           <>
+            <p>Sign in with Google to sync with Google Tasks</p>
             <button onClick={() => googleSignIn()}>Sign In With Google</button>
           </>
         }
