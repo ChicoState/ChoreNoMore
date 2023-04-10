@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
 import { supabase } from '../supabaseClient';
+import Dropdown from "../Dropdown";
 
 export class TaskChores extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        message: "",
         title: "",
-        description: "",
-        due: new Date(),
+        due: undefined,
+        frequency: undefined,
         todos: undefined,
         taskList: undefined,
-        token: undefined
+        token: undefined,
+        chores: [],
+        supabaseEmail: ""
       };
   }
 
   getAuthToken() {
     supabase.auth.getSession()
     .then(value => {
+      this.setState({
+        supabaseEmail: value.data.session.user.email
+      })
+    });
+    supabase.auth.getSession()
+    .then(value => {
         let token = value.data.session.provider_token; //getting provider token
+        console.log(value);
         this.setState({
           token: token
         });
@@ -26,11 +35,10 @@ export class TaskChores extends Component {
   }
 
   addToDo() {
-    console.log(this.state.taskList);
     if (this.state.token !== undefined){
       var task = {
         "title": this.state.title,
-        "due": new Date(this.state.due + "T00:00:00.000Z"),
+        "due": this.state.due + "T00:00:00.000Z",
       }
       fetch(`https://tasks.googleapis.com/tasks/v1/lists/${ this.state.taskList }/tasks`, {
         method: "POST",
@@ -51,6 +59,7 @@ export class TaskChores extends Component {
           });
         })
       });
+      this.insertChores();
     }
   }
   
@@ -58,6 +67,7 @@ export class TaskChores extends Component {
     if (this.state.todos === undefined) {
       if (this.state.token === undefined) {
         this.getAuthToken();
+        //this.fetchChores();
       }
       fetch("https://tasks.googleapis.com/tasks/v1/users/@me/lists", { //getting tasks list
         method: "GET",
@@ -91,6 +101,19 @@ export class TaskChores extends Component {
     }
   }
 
+  insertChores(){
+    console.log("In insert chores");
+    const {data , error} = supabase.from('Chores')
+    .insert([{Chore: this.state.title, Created: this.supabaseEmail}]);
+    if(error){
+      console.log("Error:" + error);
+    }else{
+      console.log("Data: " + data);
+      this.fetchChores();
+    }
+  }
+
+
   renderGoogleTasks() {
     let loading = <p><em>Loading...</em></p>;
     let todosContent = undefined;
@@ -98,7 +121,7 @@ export class TaskChores extends Component {
       this.loadToDo();
       todosContent = loading;
     } else {
-      todosContent = <div><h1>Incomplete</h1>{this.state.todos.map(todo => <div><b>Chore:</b> {todo.title} - <b>Due:</b> {todo.due}</div>)}</div>
+      todosContent = <div><h1>Incomplete Tasks</h1>{this.state.todos.map(todo => <div><b>Chore:</b> {todo.title} - <b>Due:</b> {todo.due}</div>)}</div>
     }
 
     return (
@@ -109,19 +132,26 @@ export class TaskChores extends Component {
   }
 
   render() {
-      let loading = <p><em>Loading...</em></p>;
-      this.renderGoogleTasks();
-      let todosContent = supabase === undefined
-        ? loading
-        : this.renderGoogleTasks();
-  
-      return (
-        <div>
-          <input type="text" className="form-control" placeholder="Title" value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
-          <input type="date" value={this.state.due} onChange={(e) => this.setState({ due: e.target.value })} />
-          <button className="btn btn-primary" onClick={this.addToDo.bind(this)}>Add Task</button>
-          {todosContent}
-        </div>
-      );
-    }
+    const frequencyOptions = [
+      {value: "daily", label: "Daily"},
+      {value: "weekly", label: "Weekly"},
+      {value: "monthly", label: "Monthly"},
+    ];
+
+    let loading = <p><em>Loading...</em></p>;
+    this.renderGoogleTasks();
+    let todosContent = supabase === undefined
+      ? loading
+      : this.renderGoogleTasks();
+
+    return (
+      <div>
+        <input type="text" className="form-control" placeholder="Title" value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
+        <input type="date" value={this.state.due} onChange={(e) => this.setState({ due: e.target.value })} />
+        <Dropdown placeHolder="Frequency?" options={frequencyOptions} onChange={(e) => this.setState({ frequency: e.value })} />
+        <button className="btn btn-primary" onClick={this.addToDo.bind(this)}>Add Task</button>
+        {todosContent}
+      </div>
+    );
+  }
 }
