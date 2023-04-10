@@ -10,6 +10,9 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 import { createClient } from "@supabase/supabase-js";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import Navbar from "./Navbar"
+import { Route, Routes } from "react-router-dom"
+import Instructions from "./pages/HowToUse";
 
 const supabase = createClient(
   "https://wqamrjqdnsnboscermtz.supabase.co",
@@ -167,10 +170,12 @@ function App() {
   console.log(completed);
   return (
     <div className="App">
-      <Stylesheet />
+      <Navbar />
       <div style={{ width: "400px", margin: "30px auto" }}>
         {session ? (
           <>
+            {/*<Navbar />*/}
+            
             <h2>Hey there {session.user.email}</h2>
             <p>Start of your event</p>
             <DateTimePicker onChange={setStart} value={start} />
@@ -192,7 +197,7 @@ function App() {
             </p>
             <p>
               <input type="checkbox" name="completed" onChange={handleChange} />
-              <label htmlFor="completed"> Completed? </label>
+              <label htmlFor="completed" > Completed? </label>
             </p>
             <hr />
             <button onClick={() => createCalendarEvent()}>
@@ -207,14 +212,14 @@ function App() {
               ></input>
               <button onClick={() => createGroup()}> Create Group</button>
             </form>
-            <h1>To-Do</h1>
-            <p>
+            <h1 id='todo'>To-Do</h1>
+            <p id='list1'>
               {incompleteChores.map((item) => (
                 <li key="{item.eventName}">{item.eventName}</li>
               ))}
             </p>
-            <h1>Completed</h1>
-            <p>
+            <h1 id='comp'>Completed</h1>
+            <p id='list2'>
               {completedChores.map((item) => (
                 <li key="{item.eventName}">{item.eventName}</li>
               ))}
@@ -222,8 +227,8 @@ function App() {
           </>
         ) : (
           <>
+            <Stylesheet />
             <form className='create-account'>
-              
               <span className='header'>Create Account</span><br></br>
               Email:<br></br>
               <input type="text" onChange={(e) => setEmail(e.target.value)} />

@@ -1,10 +1,9 @@
 .App {
   text-align: center;
+
 }
 
-* {
-  background-color: beige;
-}
+
 .App-header {
   background-color: #383e49;
   min-height: 100vh;
@@ -26,8 +25,8 @@
   position: absolute;
   background-color: tan;
   width: 2px;
-  top: 100px;
-  bottom: 300px;
+  top: 200px;
+  bottom: 200px;
   left: 50%;
 }
 
@@ -43,13 +42,13 @@
 .create-account {
   background-color: tan;
   
-  position: relative;
-  top: 100px;
-  right: 250px;
+  position: absolute;
+  top: 200px;
+  left: 130px;
   
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 120px; /* height of box model is taller */
+  height: 150px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
@@ -59,13 +58,13 @@
 
   background-color: tan;
 
-  position: relative;
-  bottom: 80px;
-  left: 270px;
+  position: absolute;
+  top: 200px;
+  right: 130px;
 
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 120px; /* height of box model is taller */
+  height: 150px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
@@ -73,10 +72,32 @@
 
 .button {
   background-color: lightgrey;
-  position: relative;
-  bottom: 400px;
-  left: 400px;
+  position: absolute;
+  top: 50px;
+  right: 20px;
 }
 
+#todo {
+  position: absolute;
+  top: 100px;
+  left: 130px;
 
+}
+
+#list1 {
+  position: absolute;
+  top: 200px;
+  left: 140px;
+}
+#list2 {
+  position: absolute;
+  top: 470px;
+  left: 140px;
+}
+
+#comp {
+  position: absolute;
+  top: 400px;
+  left: 100px;
+}
 
