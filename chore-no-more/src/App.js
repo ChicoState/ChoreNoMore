@@ -3,13 +3,15 @@ import { Stylesheet } from './components/Stylesheet'
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { supabase } from './supabaseClient';
 import { TaskChores } from './components/TaskChores';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Groups } from './components/Groups';
 import Dropdown from "./Dropdown";
 import Navbar from "./Navbar"
 import { Route, Routes } from "react-router-dom"
 import Instructions from "./pages/HowToUse";
 
 function App() {
+  const [ groupsNames, setGroupNames] = useState([]);
   const [ groupName, setGroupName] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -49,9 +51,9 @@ function App() {
     }
   }
 
-  if (isLoading) {
-    return <></>
-  }
+  
+
+
 
   async function googleSignIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -69,10 +71,11 @@ function App() {
   async function signOut() {
     await supabase.auth.signOut();
   }
+  
 
-  async function addGroup(){
+  async function addGroup(count){
     const { error } = await supabase
-    .rpc('append_array', {new_element: 1000000, id: session.user.email});
+    .rpc('append_array', {new_element: count, email: session.user.email});
     if(error) {
       alert("Adding group ID to user table is not working");
       console.log(error);
@@ -82,10 +85,24 @@ function App() {
     const { error } = await supabase
     .from('Groups')
     .insert({ Members: [session.user.email], Name: groupName, Editors: [session.user.email] })
-    addGroup();
+    countGroup();
     if(error){
-      alert("Error creating group");
       console.log(error);
+    }
+  }
+
+  async function countGroup(){
+    const { error, count } = await supabase
+    .from('Groups')
+    .select('id', {count: 'exact', head: true})
+    if(count){
+      console.log(count)
+      addGroup(count)
+    }
+    //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
+    if(error) {
+      alert("Adding group ID to user table is not working")
+      console.log(error)
     }
   }
 
@@ -117,18 +134,22 @@ function App() {
     }
   }
 
+
+  
   if(choresLoaded !== true) {
     fetchChores();
   }
 
-
+  if (isLoading) {
+    return <></>
+  }
   return (
     <div className="App">
       <Navbar />
       <div style={{ width: "400px", margin: "30px auto" }}>
         {session ? (
           <>
-            {/*<Navbar />*/}
+                  {/*<Navbar />*/}
             
             <h1>Incomplete Chores</h1>
             <div>
@@ -137,20 +158,24 @@ function App() {
             {session.provider_token ? <TaskChores/> : 
               <div>
                 <div>
+                  <br></br>
                   <input type="text" onChange={(e) => setChoreName(e.target.value )} />
                   <button className="btn btn-primary" onClick={() => insertChores()}>Add Task</button>
                 </div>
                 <button onClick={() => {googleSignIn()}}>Sign In With Google</button>
+                <br></br>
+                <button onClick={() => signOut()}>Sign Out</button>
               </div>
             }
-            <form>
-              <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
-              <button onClick={() => createGroup()}> Create Group</button>
-            </form>
-            <button onClick={() => signOut()}>Sign Out</button>
+            <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
+            <button onClick={() => createGroup()}> Create Group</button>
+
+            <div>
+              <h1>Your Groups</h1>
+            <Groups /></div>
           </>
         ) : (
-          <>
+          <>  
             <Stylesheet />
             <form className='create-account'>
               <span className='header'>Create Account</span><br></br>
@@ -163,8 +188,9 @@ function App() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <br></br>
-              <button onClick={() => supabaseSignUp()}>Create Account</button>
+              
             </form>
+            <button onClick={() => supabaseSignUp()}>Create Account</button>
             <div className='page-break'></div>
             <form className='sign-in'>
               <span class='header'>Sign In</span><br></br>
@@ -177,8 +203,9 @@ function App() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <br></br>
-              <button onClick={() => supabaseSignIn()}>Sign In</button>
             </form>
+            <button onClick={() => supabaseSignIn()}>Sign In</button>
+
             <br></br>
             <button className='button' onClick={() => googleSignIn()}>Sign In With Google</button>
           </>
