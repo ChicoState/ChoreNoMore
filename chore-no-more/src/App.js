@@ -164,9 +164,10 @@ function App() {
                 </div>
                 <button onClick={() => {googleSignIn()}}>Sign In With Google</button>
                 <br></br>
-                <button onClick={() => signOut()}>Sign Out</button>
+                
               </div>
             }
+            <button className='button1'onClick={() => signOut()}>Sign Out</button> <br></br>
             <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
             <button onClick={() => createGroup()}> Create Group</button>
 
@@ -190,7 +191,7 @@ function App() {
               <br></br>
               
             </form>
-            <button onClick={() => supabaseSignUp()}>Create Account</button>
+            <button id='create-account-button' onClick={() => supabaseSignUp()}>Create Account</button>
             <div className='page-break'></div>
             <form className='sign-in'>
               <span class='header'>Sign In</span><br></br>
@@ -204,10 +205,10 @@ function App() {
               />
               <br></br>
             </form>
-            <button onClick={() => supabaseSignIn()}>Sign In</button>
+            <button id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
 
             <br></br>
-            <button className='button' onClick={() => googleSignIn()}>Sign In With Google</button>
+            <button className='button1' onClick={() => googleSignIn()}>Sign In With Google</button>
           </>
         )}
       </div>

@@ -70,7 +70,19 @@
   margin: 20px; /*adds space outside the border*/
 }
 
-.button {
+#create-account-button {
+  position: absolute;
+  top: 360px;
+  left: 270px;
+}
+
+#sign-in-button {
+  position: absolute;
+  top: 360px;
+  right: 290px;
+}
+
+.button1 {
   background-color: lightgrey;
   position: absolute;
   top: 50px;
