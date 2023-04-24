@@ -1,21 +1,28 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import './nav.css'
-import signOut from "./App.js"
+import { SignOut } from "./components/SignOut"
+import { useSession } from '@supabase/auth-helpers-react';
 
 export default function Navbar () {
+    const session = useSession();
     
     return (
         <nav className="nav">
             <Link to="/" className="site-title">Chore No More</Link>
-            <ul>
-                <CustomLink to="/instructions">How To Use</CustomLink>
-                {/*<li className='active'> 
-                    <a href="/pricing">Pricing</a>
-                </li>*/}
-                {/*<button onClick={() => signOut()}>Sign Out</button>*/}
-                <CustomLink to="/groups">Groups</CustomLink>
-                <CustomLink to="/calendar">Calendar</CustomLink>
-            </ul>
+            {session ? (
+                <ul>
+                    <CustomLink to="/instructions">How To Use</CustomLink>
+                    <CustomLink to="/groups">Groups</CustomLink>
+                    <CustomLink to="/calendar">Calendar</CustomLink>
+                    <SignOut />
+                </ul>
+            ) : (
+                <ul>
+                    <CustomLink to="/instructions">How To Use</CustomLink>
+                    <CustomLink to="/groups">Groups</CustomLink>
+                    <CustomLink to="/calendar">Calendar</CustomLink>
+                </ul>
+            )}
         </nav>
     )
 }
