@@ -12,18 +12,18 @@ export function Chores() {
     const session = useSession();
 
     async function insertChores(){
-        const {data , error} = await supabase.from('Chores')
+        const {/*data ,*/ error} = await supabase.from('Chores')
         .insert([{Chore: choreName, Created: session.user.email}]);
         if(error){
           console.log(error);
         }else{
-          console.log(data);
+          //console.log(data);
           fetchChores();
         }
     }
 
     async function fetchChores(){
-        console.log("In fetchChores");
+        //console.log("In fetchChores");
         const {data , error} = await supabase
         .from('Chores')
         .select('Chore')
@@ -32,8 +32,8 @@ export function Chores() {
         if(error){
             console.log(error);
         }else{
-            console.log(session.user.email)
-            console.log(data);
+            //console.log(session.user.email)
+            //console.log(data);
             setChoresList(data);
             setChoresLoaded(true);
         }

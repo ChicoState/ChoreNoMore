@@ -12,17 +12,14 @@ export function Groups() {
 
   useEffect(() => {
     async function getGroupId() {
-      console.log(session.user.email);
       const { data: groupId, error } = await supabase
         .from('Users')
         .select('Group')
         .eq('Email', session.user.email);
         var groupIdS = groupId[0].Group;
       if (groupIdS != null) {
-        console.log(groupIdS);
         getGroupName(groupIdS);
         setExist(true);
-        console.log(exist);
       } else {
         setExist(false); // Set exist to false if there is an error
       }
@@ -39,7 +36,6 @@ export function Groups() {
         .eq('id', groupId);
       if (data) {
         var name = data[0];
-        console.log(name.Name);
         setGroupName(name.Name);
       }
     }
@@ -64,7 +60,6 @@ export function Groups() {
       .from('Groups')
       .select('id', { count: 'exact', head: true })
     if (count) {
-      console.log(count)
       addGroup(count)
     }
     //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
@@ -83,7 +78,6 @@ export function Groups() {
       alert("ADD GROUP Adding group ID to user table is not working");
       console.log(error);
     }
-    console.log(exist);
   }
 
   return (
