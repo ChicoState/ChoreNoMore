@@ -1,99 +1,92 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../supabaseClient'
-import { useSession } from '@supabase/auth-helpers-react';
+import { supabase } from '../supabaseClient';
+import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 
 
-export function Groups() {
-    const [ groupsNames, setGroupNames] = useState([]);
-    const [ groupName, setGroupName] = useState('');
+export function Groups({}) {
+    const [ groupsName, setGroupName] = useState();
+    const [ Group, setGroup ] = useState('');
     const session = useSession();
-
-    async function addGroup(count){
-      const { error } = await supabase
-      .rpc('append_array', {new_element: count, email: session.user.email});
-      if(error) {
-        alert("Adding group ID to user table is not working");
-        console.log(error);
-      }
-    }
-    async function createGroup() {
-      const { error } = await supabase
-      .from('Groups')
-      .insert({ Members: [session.user.email], Name: groupName, Editors: [session.user.email] })
-      countGroup();
-      if(error){
-        console.log(error);
-      }
-    }
-  
-    async function countGroup(){
-      const { error, count } = await supabase
-      .from('Groups')
-      .select('id', {count: 'exact', head: true})
-      if(count){
-        console.log(count)
-        addGroup(count)
-      }
-      //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
-      if(error) {
-        alert("Adding group ID to user table is not working")
-        console.log(error)
-      }
-    }
-    
+    const [Exist, setExist] = useState(null);
     useEffect(() => {
-        async function getGroupIds(){
-          console.log("hello");
-            const { data: groupIds } = await supabase
+        async function getGroupId(){
+          console.log(session.user.email);
+            const { data: groupId, error } = await supabase
             .from('Users')
-            .select('UserGroups', 'Email')
+            .select('Group')
             .eq('Email', session.user.email);
-            if(groupIds){
-                console.log("HERE!")
-              var jsonGroupIds = (JSON.stringify(groupIds, null, 2));
-              console.log(jsonGroupIds);
-              getGroupArrayofIds(jsonGroupIds);
+            if(groupId){
+              var groupIdS = groupId[0].Group;
+              console.log(groupIdS);
+              getGroupName(groupIdS);
+              setExist(true);
+              console.log(Exist);
+            }
+            if(error){
+              alert("Failed to get group ID")
             }
           }
-        
-          function getGroupArrayofIds(jsonGroupIds){
-            const arrayGroupIds = JSON.parse(jsonGroupIds);
-            var finalGroupIds = arrayGroupIds[0]; 
-            console.log(finalGroupIds.UserGroups.length);
-            for(let i = 0; i < finalGroupIds.UserGroups.length; i++){
-              console.log(finalGroupIds.UserGroups[i]);
-              getGroupName(finalGroupIds.UserGroups[i]);
-            }
-          }
-        
           async function getGroupName(groupId){
-            const { data } = await supabase
+            const {error, data} = await supabase
             .from("Groups")
             .select('Name', 'id')
             .eq('id', groupId);
             if(data){
               var name = data[0];
               console.log(name.Name);
-              setGroupNames(current => [...current, name.Name]);
+              setGroupName(name.Name);
             }
           }
-          getGroupIds();
+          getGroupId();
+          console.log(Exist);
         }, [session]);
 
-
-    return (
+        async function createGroup() {
+          const { error } = await supabase
+          .from('Groups')
+          .insert({ Members: [session.user.email], Name: Group, Editors: [session.user.email] })
+          countGroup();
+          if(error){
+          console.log(error);
+          }
+      }
+      async function countGroup(){
+        const { error, count } = await supabase
+        .from('Groups')
+        .select('id', {count: 'exact', head: true})
+        if(count){
+          console.log(count)
+          addGroup(count)
+        }
+        //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
+        if(error) {
+          alert("COUNT GROUP Adding group ID to user table is not working")
+          console.log(error)
+        }
+      }
+      async function addGroup(count){
+        const { error } = await supabase
+        .from('Users')
+        .update({Group: count})
+        .eq('Email', session.user.email)
+        if(error) {
+          alert("ADD GROUP Adding group ID to user table is not working");
+          console.log(error);
+        }
+        console.log(Exist);
+      } 
+      return (
         <div>
-          <h1>Your Groups</h1>
-          {groupsNames.map((element, index) => {
-            return (
-              <div key = {index}>
-                  <h2>{element}</h2>
-              </div>
-            );
-          })}
-          <input type= "text" onChange={(e) => setGroupName(e.target.value)}></input>
-          <button onClick={() => createGroup()}> Create Group</button>
+          {Exist === !null ?
+            <div>{groupsName}</div>
+          :
+            <div>
+              <h1>Create Group</h1>
+              <input type="text" onChange={(e) => setGroup(e.target.value )} />
+              <button onClick={() => createGroup()}>Create Group</button>
+            </div>
+          }
         </div>
-    )
+      )
   
 }

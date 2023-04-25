@@ -5,6 +5,7 @@ import { SignIn } from './components/SignIn';
 import { Chores } from './components/Chores';
 import { Stylesheet } from './components/Stylesheet'
 import Navbar from './Navbar'
+import { CreateGroup } from './components/CreateGroup';
 
 function App() {
   const { isLoading } = useSessionContext();
