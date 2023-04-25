@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
-import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
+import { useSession} from '@supabase/auth-helpers-react';
 
 
-export function Groups({}) {
+export function Groups() {
   const [groupsName, setGroupName] = useState();
   const [Group, setGroup] = useState('');
   const session = useSession();
@@ -33,7 +33,7 @@ export function Groups({}) {
     }
 
     async function getGroupName(groupId) {
-      const { error, data } = await supabase
+      const { data } = await supabase
         .from("Groups")
         .select('Name', 'id')
         .eq('id', groupId);
