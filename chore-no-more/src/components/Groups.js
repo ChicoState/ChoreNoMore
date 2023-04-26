@@ -9,6 +9,10 @@ export function Groups() {
   const session = useSession();
   const [exist, setExist] = useState(false); // Initialize to false instead of null
   const [loading, setLoading] = useState(true); // Add loading state
+  const [member, setMember] = useState('');
+  const [groupId, setGroupId] = useState('');
+  const [newName, setNewName] = useState(null);
+  const [changedName, setChangedName] = useState(false);
 
   useEffect(() => {
     async function getGroupId() {
@@ -18,6 +22,7 @@ export function Groups() {
         .eq('Email', session.user.email);
         var groupIdS = groupId[0].Group;
       if (groupIdS != null) {
+        setGroupId(groupIdS);
         getGroupName(groupIdS);
         setExist(true);
       } else {
@@ -40,7 +45,7 @@ export function Groups() {
       }
     }
     getGroupId();
-  }, [session, exist]);
+  }, [session, exist, changedName]);
 
   async function createGroup() {
     const { error } = await supabase
@@ -69,6 +74,19 @@ export function Groups() {
     }
   }
 
+  async function addMember(){
+    const {error} = await supabase
+    .from('Users')
+    .update({Group: groupId})
+    .eq('Email', member)
+    if(error){
+      console.log(error);
+    }
+    /*const {error2} = await supabase
+    .from('Groups')
+    */
+  }
+
   async function addGroup(count) {
     const { error } = await supabase
       .from('Users')
@@ -80,6 +98,35 @@ export function Groups() {
     }
   }
 
+  async function changeName(){
+    if(newName != null){
+      const{error} = await supabase
+      .from('Groups')
+      .update({Name : newName})
+      .eq('id', groupId)
+      if(error){
+        console.log(error);
+      }
+      else{
+        setChangedName(true);
+      }
+    }
+  }
+
+  async function leaveGroup(){
+    const{error} = await supabase
+    .from('Users')
+    .update({Group : null})
+    .eq('Email', session.user.email)
+    if(error){
+      console.log(error)
+    }
+    else{
+      setExist(false);
+    }
+
+  }
+
   return (
     <div>
       {loading ? (
@@ -87,7 +134,21 @@ export function Groups() {
       ) : (
         <div>
           {exist ? (
-            <div>{groupsName}</div>
+            <div>
+              <h2>Your Household</h2>
+              <p><strong>{groupsName}</strong></p>
+              <br></br>
+
+              <h2>Add Member to household by email</h2>
+              <input type="text" onChange={(e) => setMember(e.target.value)} />
+              <button onClick={() => addMember()}>Add Member</button><br/>
+
+              <h2>Change Household Name</h2>
+              <input type="text" onChange={(e) => setNewName(e.target.value)} />
+              <button onClick={() => changeName()}>Change</button><br/><br/>
+
+              <button onClick={() => leaveGroup()}>Leave Group</button>
+            </div>
           ) : (
             <div>
               <h1>Create Group</h1>
