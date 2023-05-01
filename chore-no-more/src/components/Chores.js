@@ -39,6 +39,20 @@ export function Chores() {
             setChoresLoaded(true);
         }
     }
+
+  async function deleteChores(){ 
+       const {data, error} = await supabase
+       .from('Chores')
+       .delete()
+       .eq('id', chore.id)
+       if (error) {
+         console.log(error)
+       }
+       if (data) {
+         console.log(data)
+       }
+     }
+   
     
     if(choresLoaded !== true) {
         fetchChores();
