@@ -2,7 +2,6 @@ import './App.css';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { Groups } from './components/Groups';
 import { SignIn } from './components/SignIn';
-import { Chores } from './components/Chores';
 import { Stylesheet } from './components/Stylesheet'
 import Navbar from './Navbar'
 
@@ -22,7 +21,7 @@ function App() {
         {session ? (
           <>
             <Stylesheet />
-            <Chores />
+            
             <br></br>
             <Groups />
           </>

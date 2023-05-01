@@ -5,6 +5,7 @@ import { useState } from 'react';
 export function SignIn() {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ name, setName ] = useState('');
 
     async function supabaseSignUp() {
         console.log(email, password);
@@ -18,7 +19,7 @@ export function SignIn() {
         }
         const { error } = await supabase
           .from('Users')
-          .insert({ Email: email })
+          .insert({ Email: email, Name : name })
         if(error){
           alert("Failed to add to database");
           console.log(error);
@@ -46,6 +47,12 @@ export function SignIn() {
             <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
+            />
+            <br></br>
+            Name:<br></br>
+            <input
+            type="text"
+            onChange={(e) => setName(e.target.value)}
             />
             <br></br>
             
