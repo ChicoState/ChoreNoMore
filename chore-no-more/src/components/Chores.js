@@ -4,7 +4,7 @@ import { supabase } from '../supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react';
 import { TaskChores } from './TaskChores';
 import { GoogleSignIn } from './GoogleSignIn';
-import { Chorecard } from './Chorecard';
+import  Chorecard  from './Chorecard';
 
 export function Chores() {
     const [ chores, setChoresList ] = useState([]);
@@ -63,7 +63,7 @@ export function Chores() {
           {/* order-by buttons */}
           <div className="chore-grid">
             {chores.map(chore => ( 
-              <Chorecard key={chore.id} chore={Chore} />
+              <Chorecard key={chore.id} chore={chore} />
             ))}
           </div>
         </div>
