@@ -33,7 +33,7 @@ export function Chores({groupId}) {
       setAddedChores(false);
       setClaimed(false);
       setDeleted(false);
-    }, [addedChores, groupId, choresLoaded, claimed]);
+    }, [addedChores, groupId, choresLoaded, claimed, deleted]);
     async function insertChores(){
       const {/*data ,*/ error} = await supabase.from('Chores')
       .insert([{Chore: choreName, Created: session.user.email, Group: groupId}]);
@@ -59,21 +59,20 @@ export function Chores({groupId}) {
     }
     setClaimed(true);
   }
-
   async function deleteChore(chore){
-      const { data, error } = await supabase
-        .from('Chores')
-        .delete()
-        .eq('id', chore)
-      
-      if (error) {
-        console.log(error)
-      }
-      if (data) {
-        console.log(data)
-      }
-      setDeleted(true);
+    const { data, error } = await supabase
+      .from('Chores')
+      .delete()
+      .eq('id', chore)
+    
+    if (error) {
+      console.log(error)
     }
+    if (data) {
+      console.log(data)
+    }
+    setDeleted(true);
+  }
 
     return (
         <div>
