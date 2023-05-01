@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
+import { Chores } from './Chores';
 
 
 export function Groups() {
@@ -13,8 +14,10 @@ export function Groups() {
   const [groupId, setGroupId] = useState('');
   const [newName, setNewName] = useState(null);
   const [changedName, setChangedName] = useState(false);
+  const [nameList, setNameList] = useState([]);
 
   useEffect(() => {
+
     async function getGroupId() {
       const { data: groupId, error } = await supabase
         .from('Users')
@@ -44,8 +47,24 @@ export function Groups() {
         setGroupName(name.Name);
       }
     }
+
+    async function displayMembers(){
+      const {error, data} = await supabase
+      .from('Users')
+      .select('Name')
+      .eq('Group', groupId)
+      if(error){
+        console.log(error)
+      }
+      if(data){
+        //console.log(data)
+        setNameList(data)
+      }
+    }
+
     getGroupId();
-  }, [session, exist, changedName]);
+    displayMembers();
+  }, [session, exist, changedName, groupId]);
 
   async function createGroup() {
     const { error } = await supabase
@@ -69,7 +88,6 @@ export function Groups() {
     }
     //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
     if (error) {
-      alert("COUNT GROUP Adding group ID to user table is not working")
       console.log(error)
     }
   }
@@ -122,10 +140,12 @@ export function Groups() {
       console.log(error)
     }
     else{
+      setGroupId(null);
       setExist(false);
     }
 
   }
+
 
   return (
     <div>
@@ -133,20 +153,25 @@ export function Groups() {
         <div>Loading...</div>
       ) : (
         <div>
+          <Chores groupId = {groupId} />
           {exist ? (
             <div>
               <h2>Your Household</h2>
               <p><strong>{groupsName}</strong></p>
+              <h2>Members</h2>
+              {nameList.map(todo => <div>{todo.Name}</div>)}
               <br></br>
 
               <h2>Add Member to household by email</h2>
+              <form>
               <input type="text" onChange={(e) => setMember(e.target.value)} />
               <button onClick={() => addMember()}>Add Member</button><br/>
+              </form>
 
               <h2>Change Household Name</h2>
               <input type="text" onChange={(e) => setNewName(e.target.value)} />
               <button onClick={() => changeName()}>Change</button><br/><br/>
-
+              
               <button onClick={() => leaveGroup()}>Leave Group</button>
             </div>
           ) : (
