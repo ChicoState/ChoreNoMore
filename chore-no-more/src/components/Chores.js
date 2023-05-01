@@ -70,7 +70,7 @@ export function Chores({groupId}) {
                     <h2>Add a new chore</h2>
                     <input type="text" onChange={(e) => setChoreName(e.target.value )} />
                     <button className="btn btn-primary" onClick={() => insertChores()}>Add Chore</button>
-                </div>:<p>hello{groupId}</p>}
+                </div>:<p></p>}
                 <GoogleSignIn />
               </div>
             }
