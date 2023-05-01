@@ -12,4 +12,20 @@ code {
     monospace;
 }
 
+/*code for the card*/
+/* chore grid */
+.chore-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+}
+.chore-card {
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  box-sizing: border-box;
+  border-radius: 6px;
+  position: relative;
+}
 

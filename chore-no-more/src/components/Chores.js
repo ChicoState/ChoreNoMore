@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react';
 import { TaskChores } from './TaskChores';
 import { GoogleSignIn } from './GoogleSignIn';
+import { Chorecard } from './Chorecard';
 
 export function Chores() {
     const [ chores, setChoresList ] = useState([]);
@@ -26,7 +27,7 @@ export function Chores() {
         //console.log("In fetchChores");
         const {data , error} = await supabase
         .from('Chores')
-        .select('Chore')
+        .select()
         .eq('Created', session.user.email)
 
         if(error){
@@ -57,7 +58,16 @@ export function Chores() {
             }
             <h1>Incomplete Chores</h1>
             <div>
-              {chores.map(todo => <div><b>Chore:</b> {todo.Chore}</div>)}
+            {chores && (
+        <div className="chores">
+          {/* order-by buttons */}
+          <div className="chore-grid">
+            {chores.map(chore => ( 
+              <Chorecard key={chore.id} chore={Chore} />
+            ))}
+          </div>
+        </div>
+      )}
             </div>
         </div>
     );
