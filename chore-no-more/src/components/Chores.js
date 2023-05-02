@@ -12,6 +12,7 @@ export function Chores({groupId}) {
     const [ addedChores, setAddedChores ] = useState(false);
     const session = useSession();
     const [ claimed, setClaimed ] = useState(false);
+    const [ deleted, setDeleted ] = useState(false);
     useEffect(() => {
 
       async function fetchChores(){
@@ -34,7 +35,7 @@ export function Chores({groupId}) {
       fetchChores();
       setAddedChores(false);
       setClaimed(false);
-    }, [addedChores, groupId, choresLoaded, claimed]);
+    }, [addedChores, groupId, choresLoaded, claimed, deleted]);
 
     async function insertChores(){
       const {/*data ,*/ error} = await supabase.from('Chores')
@@ -61,6 +62,21 @@ export function Chores({groupId}) {
     setClaimed(true);
   }
 
+  async function deleteChore(chore){
+    const { data, error } = await supabase
+      .from('Chores')
+      .delete()
+      .eq('id', chore)
+    
+    if (error) {
+      console.log(error)
+    }
+    if (data) {
+      console.log(data)
+    }
+    setDeleted(true);
+  }
+
       return (
         <div>
             {session.provider_token ? <TaskChores/> : 
@@ -78,7 +94,7 @@ export function Chores({groupId}) {
             
             {groupId ? 
             <><h1>Incomplete Chores</h1><div>
-              {chores.map(todo => <div><b>Chore:</b> {todo.Chore}<br></br>{todo.Assignee ? <div>User: {todo.Assignee}</div>:<button onClick= {()=> claimChore(todo.id)}>Claim</button>}</div>)}
+              {chores.map(todo => <div><b>Chore:</b> {todo.Chore}<br></br>{todo.Assignee ? <div>User: {todo.Assignee}</div>:<button onClick= {()=> claimChore(todo.id)}>Claim</button>}<button onClick = {()=> deleteChore(todo.id)}>Complete Chore</button></div>)}
             </div></>:<p></p>}
             
         </div>
