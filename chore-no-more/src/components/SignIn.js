@@ -53,18 +53,18 @@ export function SignIn() {
         <button id='create-account-button' onClick={() => supabaseSignUp()}>Create Account</button>
         <div className='page-break'></div>
         <form className='sign-in'>
-            <span class='header'>Sign In</span><br></br>
+            <span className='header'>Sign In</span><br></br>
             Email:<br></br>
-            <input type="text" onChange={(e) => setEmail(e.target.value)} />
+            <input aria-label="Sign In Email" type="text" onChange={(e) => setEmail(e.target.value)} />
             <br></br>
             Password:<br></br>
-            <input
+            <input aria-label="Sign In Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             />
             <br></br>
         </form>
-        <button id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
+        <button aria-label="Sign In Button" id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
     </div>
     );
 }
