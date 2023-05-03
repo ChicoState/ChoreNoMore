@@ -28,8 +28,6 @@ export function Groups() {
         setGroupId(groupIdS);
         getGroupName(groupIdS);
         setExist(true);
-      } else {
-        setExist(false); // Set exist to false if there is an error
       }
       if (error) {
         alert("Failed to get group ID")
@@ -85,6 +83,7 @@ export function Groups() {
       .select('id', { count: 'exact', head: true })
     if (count) {
       addGroup(count)
+      setGroupId(count);
     }
     //for new_element take the length of the id coloumn and use that as the key since it will be the last one created!
     if (error) {
@@ -153,9 +152,10 @@ export function Groups() {
         <div>Loading...</div>
       ) : (
         <div>
-          <Chores groupId = {groupId} />
+          
           {exist ? (
             <div>
+              <Chores groupId = {groupId} />
               <h2>Your Household</h2>
               <p><strong>{groupsName}</strong></p>
               <h2>Members</h2>
