@@ -40,6 +40,9 @@
   },
   "devDependencies": {
     "@testing-library/user-event": "^13.5.0",
+    "eslint": "^8.40.0",
+    "eslint-plugin-lcom": "^1.0.0",
+    "eslint-plugin-react": "^7.32.2",
     "jest-watch-typeahead": "^0.6.5"
   }
 }

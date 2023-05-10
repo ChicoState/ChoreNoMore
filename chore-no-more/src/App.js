@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { Groups } from './components/Groups';
 import { SignIn } from './components/SignIn';
