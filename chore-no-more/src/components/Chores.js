@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react';
 import { TaskChores } from './TaskChores';
 import { GoogleSignIn } from './GoogleSignIn';
+import Chorecard from './Chorecard';
 
 export function Chores({groupId}) {
     const [ chores, setChoresList ] = useState([]);
@@ -77,6 +78,16 @@ export function Chores({groupId}) {
     setDeleted(true);
   }
 
+  const handleDelete = (id) => {
+    setChoresList(prevChores => {
+      return prevChores.filter(ch => ch.id !== id)
+    })
+  }
+
+  const handleClaim = (id) => {
+    setDeleted(true)
+  }
+
       return (
         <div>
             {session.provider_token ? <TaskChores/> : 
@@ -94,7 +105,16 @@ export function Chores({groupId}) {
             
             {groupId ? 
             <><h1>Incomplete Chores</h1><div>
-              {chores.map(todo => <div><b>Chore:</b> {todo.Chore}<br></br>{todo.Assignee ? <div>User: {todo.Assignee}</div>:<button onClick= {()=> claimChore(todo.id)}>Claim</button>}<button onClick = {()=> deleteChore(todo.id)}>Complete Chore</button></div>)}
+                         {chores && (
+        <div className="chores">
+          {/* order-by buttons */}
+          <div className="chore-grid">
+            {chores.map(chore => (
+              <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
+            ))}
+          </div>
+        </div>
+      )}
             </div></>:<p></p>}
             
         </div>
