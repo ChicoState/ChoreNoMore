@@ -19,7 +19,7 @@ export function SignIn() {
     return (
         <div>
           <form className='sign-in'>
-              <span class='header'>Log In</span><br/><br />
+              <span > <b>Log In</b> </span><br/><br />
               Email Address:<br></br>
               <input type="text" onChange={(e) => setEmail(e.target.value)} />
               <br></br>

@@ -1,5 +1,6 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import './nav.css'
+import { GoogleSignIn } from './components/GoogleSignIn';
 import { SignOut } from "./components/SignOut"
 import { useSession } from '@supabase/auth-helpers-react';
 
@@ -12,15 +13,11 @@ export default function Navbar () {
             {session ? (
                 <ul>
                     <CustomLink to="/instructions">How To Use</CustomLink>
-                    <CustomLink to="/groups">Groups</CustomLink>
-                    <CustomLink to="/calendar">Calendar</CustomLink>
                     <SignOut />
                 </ul>
             ) : (
                 <ul>
-                    <CustomLink to="/instructions">How To Use</CustomLink>
-                    <CustomLink to="/groups">Groups</CustomLink>
-                    <CustomLink to="/calendar">Calendar</CustomLink>
+
                 </ul>
             )}
         </nav>

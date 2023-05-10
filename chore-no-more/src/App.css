@@ -22,12 +22,6 @@
   color: black;
 }
 
-.header {
-  font-size: 30;
-  background-color: tan;
-  font-weight: bold;
-}
-
 .create-account {
 
   background-color: tan;
@@ -67,9 +61,76 @@
   font-weight: bold;
 }
 
+#sign-out {
+  background-color: #333 !important;
+  color: white;
+  position: relative;
+  top: 10px;
+
+}
+
+.chores-display {
+  position: relative;
+  left: 300px;
+  top: 50px;
+  display: flex;
+  
+  border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
+  height: 500px; /* height of box model is taller */
+  width: 400px; /* width is 300 pixels instead of spanning the entire line*/
+  padding: 0; /*adds spacing between content and border*/
+  margin: 20px; /*adds space outside the border*/
+}
+
+.users-display {
+  position: relative;
+  right: 300px;
+  bottom: 221px;
+  display: inline-flexbox;
+  
+  border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
+  height: 250px; /* height of box model is taller */
+  width: 500px; /* width is 300 pixels instead of spanning the entire line*/
+  padding: 0; /*adds spacing between content and border*/
+  margin: 20px; /*adds space outside the border*/
+}
+
+.header {
+  margin: 0;
+  width: 100%;
+  font-size: 50;
+  font-weight: bold;
+  justify-content: center;
+  position: absolute;
+  top: 0px;
+  z-index: 2;
+  border-bottom: 1px solid black;
+}
+
+.footer {
+  margin: 0;
+  font-size: 50;
+  width: 100%;
+  border-top: 1px solid black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: absolute;
+  bottom: 0px;
+  z-index: 2;
+
+
+}
+
+.divider {
+  width: 15px;
+  height: auto;
+  display: inline-block;
+}
+
 #sign-up {
   color: #383e49;
 }
+
 
 .button1 {
   background-color: lightgrey;

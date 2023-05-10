@@ -30,7 +30,7 @@ function SignUp() {
     return (
         <div>
             <form className='create-account'>
-                <span className='header'>Create Account</span><br></br>
+                <span> <b>Create Account</b> </span><br></br>
                 Email:<br></br>
                 <input type="text" onChange={(e) => setEmail(e.target.value)} />
                 <br></br>
