@@ -6,6 +6,7 @@ import { Stylesheet } from '../components/Stylesheet';
 function SignUp() {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ name, setName ] = useState('');
 
     async function supabaseSignUp() {
         console.log(email, password);
@@ -19,7 +20,7 @@ function SignUp() {
         }
         const { error } = await supabase
           .from('Users')
-          .insert({ Email: email })
+          .insert({ Email: email, Name : name })
         if(error){
           alert("Failed to add to database");
           console.log(error);
@@ -42,6 +43,12 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 />
                 <br /><br />
+                Name:<br />
+                <input
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                />
+                <br />
                 <button onClick={() => supabaseSignUp()}>Create Account</button><br /><br />
                 <span id='sign-up'> <a href='/'>Back to Sign In</a></span>
             </form>
