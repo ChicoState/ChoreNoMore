@@ -6,7 +6,9 @@ import { useSession} from '@supabase/auth-helpers-react';
 
 
 
-const Chorecard = ({ chore, onDelete, onClaim}) => {
+
+
+const Chorecard = ({ chore, onDelete, onClaim, name}) => {
 
   const session = useSession();
 
@@ -25,16 +27,16 @@ const Chorecard = ({ chore, onDelete, onClaim}) => {
   }
 
   const claimChore = async () => {
-    console.log(session);
+   // console.log(session);
     const{error, data} = await supabase
     .from('Chores')
-    .update({Assignee : session.user.email})
+    .update({Assignee : name})
     .eq('id', chore.id)
     if(error){
       console.log(error)
     }
     if(data){
-      console.log(data)
+      //console.log(data)
     }
     onClaim(chore.id);
   }

@@ -14,6 +14,7 @@ export function Chores({groupId}) {
     const session = useSession();
     const [ claimed, setClaimed ] = useState(false);
     const [ deleted, setDeleted ] = useState(false);
+    const [username, setUserName] = useState();
     useEffect(() => {
 
       async function fetchChores(){
@@ -32,7 +33,20 @@ export function Chores({groupId}) {
             setChoresLoaded(true);
           }
       }
-    
+
+      async function getUsersName(){
+        const { data } = await supabase
+        .from('Users')
+        .select('Name')
+        .eq('Email', session.user.email);
+        if(data){
+          var name = data[0];
+          setUserName(name.Name);
+         // console.log(username)
+        }
+      }
+
+      getUsersName();
       fetchChores();
       setAddedChores(false);
       setClaimed(false);
@@ -73,7 +87,7 @@ export function Chores({groupId}) {
       console.log(error)
     }
     if (data) {
-      console.log(data)
+     // console.log(data)
     }
     setDeleted(true);
   }
@@ -85,7 +99,7 @@ export function Chores({groupId}) {
   }
 
   const handleClaim = (id) => {
-    setDeleted(true)
+    setClaimed(true)
   }
 
       return (
@@ -105,12 +119,12 @@ export function Chores({groupId}) {
             
             {groupId ? 
             <><h1>Incomplete Chores</h1><div>
-                         {chores && (
+        {chores && (
         <div className="chores">
           {/* order-by buttons */}
           <div className="chore-grid">
             {chores.map(chore => (
-              <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
+              <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim} name = {username}/>
             ))}
           </div>
         </div>
