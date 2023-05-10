@@ -3,7 +3,6 @@
 
 }
 
-
 .App-header {
   background-color: #383e49;
   min-height: 100vh;
@@ -19,36 +18,27 @@
   color: #02141a;
 }
 
-
-
-.page-break {
-  position: absolute;
-  background-color: tan;
-  width: 2px;
-  top: 200px;
-  bottom: 200px;
-  left: 50%;
-}
-
 .welcome {
   color: black;
 }
 
 .header {
+  font-size: 30;
   background-color: tan;
   font-weight: bold;
 }
 
 .create-account {
+
   background-color: tan;
-  
+
   position: absolute;
   top: 200px;
-  left: 130px;
-  
+  align-items: center;
+
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 150px; /* height of box model is taller */
+  height: 200px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
@@ -60,26 +50,25 @@
 
   position: absolute;
   top: 200px;
-  right: 130px;
+  align-items: center;
 
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 150px; /* height of box model is taller */
+  height: 200px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
 }
 
-#create-account-button {
-  position: absolute;
-  top: 360px;
-  left: 270px;
+.ErrorPage {
+  text-align: center;
+  color: red;
+  font-size: xx-large;
+  font-weight: bold;
 }
 
-#sign-in-button {
-  position: absolute;
-  top: 360px;
-  right: 290px;
+#sign-up {
+  color: #383e49;
 }
 
 .button1 {

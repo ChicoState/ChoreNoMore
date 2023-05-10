@@ -52,7 +52,7 @@ export function Chores() {
                     <input type="text" onChange={(e) => setChoreName(e.target.value )} />
                     <button className="btn btn-primary" onClick={() => insertChores()}>Add Chore</button>
                 </div>
-                <GoogleSignIn />
+                
               </div>
             }
             <h1>Incomplete Chores</h1>

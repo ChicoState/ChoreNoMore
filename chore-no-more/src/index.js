@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 //import './index.css';
 import './nav.css'
 import App from './App';
-import { BrowserRouter } from 'react-router-dom'; 
+import { BrowserRouter as Router} from 'react-router-dom'; 
 import reportWebVitals from './reportWebVitals';
 import {supabase} from './supabaseClient'
 import {SessionContextProvider} from '@supabase/auth-helpers-react';
@@ -11,11 +11,11 @@ import {SessionContextProvider} from '@supabase/auth-helpers-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <Router>
     <SessionContextProvider supabaseClient={supabase}>
       <App />
     </SessionContextProvider>
-  </BrowserRouter>
+  </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function
