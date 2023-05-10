@@ -1,9 +1,12 @@
 import './App.css';
+import { Routes, Route, Link } from 'react-router-dom';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { Groups } from './components/Groups';
 import { SignIn } from './components/SignIn';
 import { Stylesheet } from './components/Stylesheet'
 import Navbar from './Navbar'
+import { GoogleSignIn } from './components/GoogleSignIn';
+import { Chores } from './components/Chores';
 
 
 function App() {
@@ -21,12 +24,15 @@ function App() {
         {session ? (
           <>
             <Stylesheet />
-            
+            <Chores />
             <br></br>
             <Groups />
           </>
         ) : (
+          <>
           <SignIn />
+          <GoogleSignIn />
+          </>
         )}
       </div>
     </div>

@@ -156,23 +156,27 @@ export function Groups() {
           {exist ? (
             <div>
               <Chores groupId = {groupId} />
-              <h2>Your Household</h2>
-              <p><strong>{groupsName}</strong></p>
-              <h2>Members</h2>
-              {nameList.map(todo => <div>{todo.Name}</div>)}
-              <br></br>
-
-              <h2>Add Member to household by email</h2>
-              <form>
-              <input type="text" onChange={(e) => setMember(e.target.value)} />
-              <button onClick={() => addMember()}>Add Member</button><br/>
-              </form>
-
-              <h2>Change Household Name</h2>
-              <input type="text" onChange={(e) => setNewName(e.target.value)} />
-              <button onClick={() => changeName()}>Change</button><br/><br/>
               
-              <button onClick={() => leaveGroup()}>Leave Group</button>
+              <div class='users-display'>
+                <div class='header'>
+                  <p><strong>Your Household: {groupsName}</strong></p>
+                  <h2>Members</h2><div />
+                </div>
+                <div className='body2'>
+                  <br />
+                  
+                    {nameList.map(todo => <div>{todo.Name}</div>)}
+                  
+                </div>
+                <div class='footer'>
+                  <button id='addMember'>Add Member</button>
+                  <div class='divider' />
+                  <button onClick={() => leaveGroup()}>Leave Group</button>
+                  <div class='divider' />
+                  <button onClick={() => changeName()}>Change Household Name</button><br/>
+                </div>
+                
+              </div>
             </div>
           ) : (
             <div>
@@ -186,3 +190,14 @@ export function Groups() {
   </div>
   );
 }
+
+/*
+<form>
+  <input type="text" onChange={(e) => setMember(e.target.value)} />
+  <button onClick={() => addMember()}>Add Member</button><br/>
+</form>
+
+<h2>Change Household Name</h2>
+<input type="text" onChange={(e) => setNewName(e.target.value)} />
+<button onClick={() => changeName()}>Change</button><br/><br/>
+*/

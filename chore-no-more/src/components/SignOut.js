@@ -7,7 +7,7 @@ export function SignOut() {
 
     return (
         <div>
-            <button className='signOut'onClick={() => signOut()}>Sign Out</button> <br></br>
+            <button id='sign-out'onClick={() => signOut()}>Sign Out</button> <br></br>
         </div>
     );
 }

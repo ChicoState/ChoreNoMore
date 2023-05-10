@@ -85,7 +85,7 @@ export function Chores({groupId}) {
   }
 
   const handleClaim = (id) => {
-    setDeleted(true)
+    setClaimed(true)
   }
 
       return (
@@ -98,23 +98,32 @@ export function Chores({groupId}) {
                     <input type="text" onChange={(e) => setChoreName(e.target.value )} />
                     <button className="btn btn-primary" onClick={() => insertChores()}>Add Chore</button>
                 </div>:<p></p>}
-                <GoogleSignIn />
+          
               </div>
             }
             
             
             {groupId ? 
-            <><h1>Incomplete Chores</h1><div>
-                         {chores && (
-        <div className="chores">
-          {/* order-by buttons */}
-          <div className="chore-grid">
-            {chores.map(chore => (
-              <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
-            ))}
-          </div>
-        </div>
-      )}
+            <>
+            <div class='chores-display'>
+              <div class='header'>
+                  <h2>Chores</h2>
+              </div>
+            {chores && (
+              <div className="chores">
+                {/* order-by buttons */}
+                <div className="body">
+                  {chores.map(chore => (
+                    <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
+                  ))}
+                </div>
+              </div>
+            )}
+              <div class='footer'>
+                <button id='addChore'>Add Chores</button>
+                <div class='divider' />
+                <button id='assignChore'>Assign Chores</button>
+              </div>
             </div></>:<p></p>}
             
         </div>
