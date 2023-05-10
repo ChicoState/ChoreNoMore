@@ -1,7 +1,7 @@
 import React from 'react';
-import '../App.css';
 import { useState } from 'react';
 import { supabase } from '../supabaseClient';
+import { Stylesheet } from '../components/Stylesheet';
 
 function SignUp() {
     const [ email, setEmail ] = useState('');
@@ -28,8 +28,10 @@ function SignUp() {
       }
 
     return (
-        <div>
-            <form className='create-account'>
+        <div className='App'>
+          <div style={{ width: "400px", margin: "30px auto" }}>
+            <Stylesheet />
+            <form className='create-account'> 
                 <span> <b>Create Account</b> </span><br></br>
                 Email:<br></br>
                 <input type="text" onChange={(e) => setEmail(e.target.value)} />
@@ -40,9 +42,10 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 />
                 <br /><br />
-                <button id='create-account-button' onClick={() => supabaseSignUp()}>Create Account</button>
+                <button onClick={() => supabaseSignUp()}>Create Account</button><br /><br />
+                <span id='sign-up'> <a href='/'>Back to Sign In</a></span>
             </form>
-            
+          </div>
         </div>
     );
 }
