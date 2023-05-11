@@ -21,6 +21,7 @@ export function Groups() {
   const [addPopup, setAddPopup] = useState(false);
   const [leavePopup, setLeavePopup] = useState(false);
   const [changePopup, setChangePopup] = useState(false);
+  const [addedMember, setAddedMemeber] = useState(false);
 
  
 
@@ -67,10 +68,11 @@ export function Groups() {
         setNameList(data)
       }
     }
-
+    setChangedName(false); 
+    setAddedMemeber(false);
     getGroupId();
     displayMembers();
-  }, [session, exist, changedName, groupId]);
+  }, [session, exist, changedName, groupId, addedMember]);
 
   async function createGroup() {
     const { error } = await supabase
@@ -106,6 +108,9 @@ export function Groups() {
     .eq('Email', member)
     if(error){
       console.log(error);
+    }
+    else{
+      setAddedMemeber(true);
     }
     /*const {error2} = await supabase
     .from('Groups')
