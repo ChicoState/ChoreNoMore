@@ -1,3 +1,4 @@
+//to run with detailed reporter: npx eslint . -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report.html
 module.exports = {
     "env": {
         "browser": true,
