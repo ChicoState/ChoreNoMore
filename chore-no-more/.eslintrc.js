@@ -19,7 +19,8 @@ module.exports = {
         "lcom"
     ],
     "rules": {
-        "react": "warn",
+        "react/prop-types": "warn",
+        "react/jsx-key": "warn",
         "lcom/lcom4": "warn",
         "complexity": ["warn", 10]
     }
