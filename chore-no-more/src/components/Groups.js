@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
 import { Chores } from './Chores';
+import AddPopup from './AddPopup';
+import LeavePopup from './LeavePopup';
+import ChangePopup from './ChangePopup';
 
 
 export function Groups() {
@@ -15,6 +18,11 @@ export function Groups() {
   const [newName, setNewName] = useState(null);
   const [changedName, setChangedName] = useState(false);
   const [nameList, setNameList] = useState([]);
+  const [addPopup, setAddPopup] = useState(false);
+  const [leavePopup, setLeavePopup] = useState(false);
+  const [changePopup, setChangePopup] = useState(false);
+
+ 
 
   useEffect(() => {
 
@@ -169,11 +177,41 @@ export function Groups() {
                   
                 </div>
                 <div class='footer'>
-                  <button id='addMember'>Add Member</button>
+                  <button id='addMember' onClick={() => setAddPopup(true)}>Add Member</button>
+                  <AddPopup trigger={addPopup} setTrigger={setAddPopup}>
+                    <h2>Add a new member</h2><br />
+                    <input type="text" onChange={(e) => setMember(e.target.value)} />
+                    <button onClick={
+                      () => {
+                          addMember()
+                          setAddPopup(false)
+                        }}>Add Member</button>
+                  </AddPopup>
                   <div class='divider' />
-                  <button onClick={() => leaveGroup()}>Leave Group</button>
+                  <button id='leaveGroup' onClick={() => setLeavePopup(true)}>Leave Group</button>
+                  <LeavePopup trigger={leavePopup} setTrigger={setLeavePopup}>
+                    <h2>Are you sure you want to leave this group?</h2><br />
+                    <button onClick={
+                      () => {
+                          leaveGroup()
+                          setLeavePopup(false)
+                        }}>Yes</button>
+                    <button onClick={
+                      () => {
+                          setLeavePopup(false)
+                        }}>No</button>
+                  </LeavePopup>
                   <div class='divider' />
-                  <button onClick={() => changeName()}>Change Household Name</button><br/>
+                  <button onClick={() => setChangePopup(true)}>Change Household Name</button><br/>
+                  <ChangePopup trigger={changePopup} setTrigger={setChangePopup}>
+                    <h2>Enter New Household Name</h2><br />
+                    <input type="text" onChange={(e) => setNewName(e.target.value)} />
+                    <button onClick={
+                      () => {
+                          changeName()
+                          setChangePopup(false)
+                        }}>Change</button>
+                  </ChangePopup>
                 </div>
                 
               </div>
@@ -190,14 +228,3 @@ export function Groups() {
   </div>
   );
 }
-
-/*
-<form>
-  <input type="text" onChange={(e) => setMember(e.target.value)} />
-  <button onClick={() => addMember()}>Add Member</button><br/>
-</form>
-
-<h2>Change Household Name</h2>
-<input type="text" onChange={(e) => setNewName(e.target.value)} />
-<button onClick={() => changeName()}>Change</button><br/><br/>
-*/

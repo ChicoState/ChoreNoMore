@@ -5,6 +5,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import { TaskChores } from './TaskChores';
 import { GoogleSignIn } from './GoogleSignIn';
 import Chorecard from './Chorecard';
+import Popup from './Popup';
 
 export function Chores({groupId}) {
     const [ chores, setChoresList ] = useState([]);
@@ -14,6 +15,8 @@ export function Chores({groupId}) {
     const session = useSession();
     const [ claimed, setClaimed ] = useState(false);
     const [ deleted, setDeleted ] = useState(false);
+    const [buttonPopup, setButtonPopup] = useState(false);
+
     useEffect(() => {
 
       async function fetchChores(){
@@ -92,39 +95,37 @@ export function Chores({groupId}) {
         <div>
             {session.provider_token ? <TaskChores/> : 
               <div>
-                {groupId ?
-                <div>
-                    <h2>Add a new chore</h2>
-                    <input type="text" onChange={(e) => setChoreName(e.target.value )} />
-                    <button className="btn btn-primary" onClick={() => insertChores()}>Add Chore</button>
-                </div>:<p></p>}
-          
+                {groupId ? 
+                <>
+                <div class='chores-display'>
+                  <div class='header'>
+                      <h2>Chores</h2>
+                  </div>
+                  {chores && (
+                    <div className="chores">
+                      {/* order-by buttons */}
+                      <div className="body">
+                      {chores.map(chore => (
+                        <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
+                      ))}
+                      </div>
+                    </div>
+                  )}
+                  <div class='footer'>
+                    <button id='addChore' onClick={() => setButtonPopup(true)}>Add Chores</button>
+                      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+                        <h2>Add a new chore</h2><br />
+                        <input type="text" onChange={(e) => setChoreName(e.target.value )} />
+                        <button onClick={
+                          () => {
+                              insertChores()
+                              setButtonPopup(false)
+                            }}>Add Chore</button>
+                      </Popup>                
+                  </div>
+                </div></>:<p></p>}
               </div>
             }
-            
-            
-            {groupId ? 
-            <>
-            <div class='chores-display'>
-              <div class='header'>
-                  <h2>Chores</h2>
-              </div>
-            {chores && (
-              <div className="chores">
-                {/* order-by buttons */}
-                <div className="body">
-                  {chores.map(chore => (
-                    <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
-                  ))}
-                </div>
-              </div>
-            )}
-              <div class='footer'>
-                <button id='addChore'>Add Chores</button>
-                <div class='divider' />
-                <button id='assignChore'>Assign Chores</button>
-              </div>
-            </div></>:<p></p>}
             
         </div>
       );
