@@ -63,7 +63,7 @@ export function Groups() {
         setNameList(data)
       }
     }
-
+    setChangedName(false);
     getGroupId();
     displayMembers();
     
