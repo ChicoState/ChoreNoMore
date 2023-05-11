@@ -1,3 +1,4 @@
+//to run with detailed reporter: npx eslint . -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report.html
 module.exports = {
     "env": {
         "browser": true,
@@ -19,7 +20,8 @@ module.exports = {
         "lcom"
     ],
     "rules": {
-        "react": "warn",
+        "react/prop-types": "warn",
+        "react/jsx-key": "warn",
         "lcom/lcom4": "warn",
         "complexity": ["warn", 10]
     }

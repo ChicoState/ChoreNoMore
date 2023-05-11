@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
 import { Chores } from './Chores';
