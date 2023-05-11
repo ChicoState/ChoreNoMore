@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react';
 import { TaskChores } from './TaskChores';
 import { GoogleSignIn } from './GoogleSignIn';
+import Chorecard from './Chorecard';
 
 export function Chores({groupId}) {
     const [ chores, setChoresList ] = useState([]);
@@ -13,6 +14,7 @@ export function Chores({groupId}) {
     const session = useSession();
     const [ claimed, setClaimed ] = useState(false);
     const [ deleted, setDeleted ] = useState(false);
+    const [username, setUserName] = useState();
     useEffect(() => {
 
       async function fetchChores(){
@@ -31,7 +33,20 @@ export function Chores({groupId}) {
             setChoresLoaded(true);
           }
       }
-    
+
+      async function getUsersName(){
+        const { data } = await supabase
+        .from('Users')
+        .select('Name')
+        .eq('Email', session.user.email);
+        if(data){
+          var name = data[0];
+          setUserName(name.Name);
+         // console.log(username)
+        }
+      }
+
+      getUsersName();
       fetchChores();
       setAddedChores(false);
       setClaimed(false);
@@ -72,9 +87,19 @@ export function Chores({groupId}) {
       console.log(error)
     }
     if (data) {
-      console.log(data)
+     // console.log(data)
     }
     setDeleted(true);
+  }
+
+  const handleDelete = (id) => {
+    setChoresList(prevChores => {
+      return prevChores.filter(ch => ch.id !== id)
+    })
+  }
+
+  const handleClaim = (id) => {
+    setClaimed(true)
   }
 
       return (
@@ -94,7 +119,16 @@ export function Chores({groupId}) {
             
             {groupId ? 
             <><h1>Incomplete Chores</h1><div>
-              {chores.map(todo => <div><b>Chore:</b> {todo.Chore}<br></br>{todo.Assignee ? <div>User: {todo.Assignee}</div>:<button onClick= {()=> claimChore(todo.id)}>Claim</button>}<button onClick = {()=> deleteChore(todo.id)}>Complete Chore</button></div>)}
+        {chores && (
+        <div className="chores">
+          {/* order-by buttons */}
+          <div className="chore-grid">
+            {chores.map(chore => (
+              <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim} name = {username}/>
+            ))}
+          </div>
+        </div>
+      )}
             </div></>:<p></p>}
             
         </div>

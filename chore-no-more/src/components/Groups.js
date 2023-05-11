@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
 import { Chores } from './Chores';
+import   Chorecard   from './Chorecard';
 
 
 export function Groups() {
@@ -15,6 +16,7 @@ export function Groups() {
   const [newName, setNewName] = useState(null);
   const [changedName, setChangedName] = useState(false);
   const [nameList, setNameList] = useState([]);
+  
 
   useEffect(() => {
 
@@ -35,6 +37,8 @@ export function Groups() {
       setLoading(false);
     }
 
+
+
     async function getGroupName(groupId) {
       const { data } = await supabase
         .from("Groups")
@@ -48,7 +52,7 @@ export function Groups() {
 
     async function displayMembers(){
       const {error, data} = await supabase
-      .from('Users')
+      .from("Users")
       .select('Name')
       .eq('Group', groupId)
       if(error){
@@ -62,6 +66,7 @@ export function Groups() {
 
     getGroupId();
     displayMembers();
+    
   }, [session, exist, changedName, groupId]);
 
   async function createGroup() {
@@ -147,6 +152,7 @@ export function Groups() {
 
 
   return (
+    
     <div>
       {loading ? (
         <div>Loading...</div>
@@ -156,6 +162,8 @@ export function Groups() {
           {exist ? (
             <div>
               <Chores groupId = {groupId} />
+              
+             
               <h2>Your Household</h2>
               <p><strong>{groupsName}</strong></p>
               <h2>Members</h2>
