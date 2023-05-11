@@ -44,7 +44,7 @@ const Chorecard = ({ chore, onDelete, onClaim, name}) => {
      <div> <div>User: {chore.Assignee}</div> </div><br />
       <div className="buttons">
         <i className="material-icons" onClick={claimChore}>claim</i>
-        <i className="material-icons" onClick={handleDelete}>delete</i>
+        <i className="material-icons" onClick={handleDelete}>Complete</i>
       </div>
       </div>
   )
