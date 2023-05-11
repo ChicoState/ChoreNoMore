@@ -16,6 +16,7 @@ export function Chores({groupId}) {
     const [ claimed, setClaimed ] = useState(false);
     const [ deleted, setDeleted ] = useState(false);
     const [buttonPopup, setButtonPopup] = useState(false);
+    const [username, setUserName] = useState();
 
     useEffect(() => {
 
@@ -35,6 +36,20 @@ export function Chores({groupId}) {
             setChoresLoaded(true);
           }
       }
+
+      async function getUsersName(){
+        const { data } = await supabase
+        .from('Users')
+        .select('Name')
+        .eq('Email', session.user.email);
+        if(data){
+          var name = data[0];
+          setUserName(name.Name);
+         // console.log(username)
+        }
+      }
+
+      getUsersName();
     
       fetchChores();
       setAddedChores(false);
@@ -106,7 +121,7 @@ export function Chores({groupId}) {
                       {/* order-by buttons */}
                       <div className="body">
                       {chores.map(chore => (
-                        <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim}/>
+                        <Chorecard key={chore.id} chore={chore} onDelete={handleDelete} onClaim={handleClaim} name = {username}/>
                       ))}
                       </div>
                     </div>
