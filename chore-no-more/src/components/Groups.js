@@ -63,7 +63,7 @@ export function Groups() {
         setNameList(data)
       }
     }
-
+    setChangedName(false);
     getGroupId();
     displayMembers();
     
@@ -103,6 +103,8 @@ export function Groups() {
     .eq('Email', member)
     if(error){
       console.log(error);
+    } else {
+      console.log("No error");
     }
     /*const {error2} = await supabase
     .from('Groups')
@@ -171,10 +173,10 @@ export function Groups() {
               <br></br>
 
               <h2>Add Member to household by email</h2>
-              <form>
+
               <input type="text" onChange={(e) => setMember(e.target.value)} />
               <button onClick={() => addMember()}>Add Member</button><br/>
-              </form>
+
 
               <h2>Change Household Name</h2>
               <input type="text" onChange={(e) => setNewName(e.target.value)} />
