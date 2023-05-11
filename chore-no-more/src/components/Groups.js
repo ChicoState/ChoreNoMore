@@ -181,6 +181,7 @@ export function Groups() {
                   <AddPopup trigger={addPopup} setTrigger={setAddPopup}>
                     <h2>Add a new member</h2><br />
                     <input type="text" onChange={(e) => setMember(e.target.value)} />
+                    <div class='divider' />
                     <button onClick={
                       () => {
                           addMember()
@@ -196,6 +197,7 @@ export function Groups() {
                           leaveGroup()
                           setLeavePopup(false)
                         }}>Yes</button>
+                    <div class='divider' />
                     <button onClick={
                       () => {
                           setLeavePopup(false)
@@ -206,6 +208,7 @@ export function Groups() {
                   <ChangePopup trigger={changePopup} setTrigger={setChangePopup}>
                     <h2>Enter New Household Name</h2><br />
                     <input type="text" onChange={(e) => setNewName(e.target.value)} />
+                    <div class='divider' />
                     <button onClick={
                       () => {
                           changeName()

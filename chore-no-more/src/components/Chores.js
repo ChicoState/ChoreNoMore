@@ -131,6 +131,7 @@ export function Chores({groupId}) {
                       <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
                         <h2>Add a new chore</h2><br />
                         <input type="text" onChange={(e) => setChoreName(e.target.value )} />
+                        <div class='divider' />
                         <button onClick={
                           () => {
                               insertChores()
