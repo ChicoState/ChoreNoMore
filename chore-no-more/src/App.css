@@ -77,9 +77,11 @@
   left: 300px;
   top: 50px;
 
-  display: flexbox;
+  display: flex;
   
-  overflow: scroll;
+  
+  overflow-x: auto;
+  overflow: hidden;
   border: 5px solid black; /*sets border thickness to 1 pixel, solid line, red*/
   height: 500px; /* height of box model is taller */
   width: 410px; /* width is 300 pixels instead of spanning the entire line*/
@@ -117,17 +119,18 @@
 }
 
 .body {
-  padding: 20px;
+  padding: 10px;
   margin-top: 40px;
   display: grid;
   position: absolute;
   align-self: center;
-  width: 90%;
+  width: 100%;
   top: 10px;
   bottom: 9%;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  overflow: auto;
+  overflow: scroll;
+
 
 }
 
@@ -207,22 +210,23 @@ nav h1 {
 }
 .chore-card i {
   color: #bbb;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   font-size: 1.2em;
-  padding: 6px;
+  padding: 5px;
   background: #eee;
   border-radius: 50%;
   cursor: pointer;
 }
 
 /* forms */
-form {
+/*form {
   background: #fff;
   padding: 20px;
   max-width: 480px;
   margin: 0 auto;
   border-radius: 6px;
-}
+}*/
 form input, form textarea {
   display: block;
   width: 100%;
@@ -230,7 +234,7 @@ form input, form textarea {
   box-sizing: border-box;
   border: 1px solid #ccc;
   margin: 10px 0 20px 0;
-}
+}/*
 form button {
   background: var(--primary);
   color: #fff;
@@ -245,4 +249,4 @@ form button {
   --primary: #12bca2;
   --secondary: #6d15df;
 }
-
+*/

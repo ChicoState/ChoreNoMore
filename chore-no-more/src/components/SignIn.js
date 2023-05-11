@@ -38,39 +38,21 @@ export function SignIn() {
       }
 
     return (
-        <div>
-        <form className='create-account'>
-            <span> <b>Create Account</b></span><br></br>
-            Email:
-            <input type="text" onChange={(e) => setEmail(e.target.value)} />
-           
-            Password:<br></br>
-            <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            />
-            Name:<br></br>
-            <input
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-            />
-            <br></br>
-            
-        </form>
-        <button id='create-account-button' onClick={() => supabaseSignUp()}>Create Account</button>
+      <div>
         <div className='page-break'></div>
         <form className='sign-in'>
-            <span> <b>Sign In</b></span><br></br><br /><br />
-            Email:<br></br>
-            <input type="text" onChange={(e) => setEmail(e.target.value)} />
-            
-            Password:
-            <input
+          <span> <b>Sign In</b></span><br></br><br /><br />
+          Email:<br></br>
+          <input type="text" onChange={(e) => setEmail(e.target.value)} />
+              
+          Password:
+          <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            />
+          />
         </form>
         <button id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
-    </div>
+        
+      </div>
     );
 }

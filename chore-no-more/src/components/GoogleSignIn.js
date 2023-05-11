@@ -18,7 +18,7 @@ export function GoogleSignIn() {
 
     return (
         <div>
-        <button className='button1' onClick={() => googleSignIn()}>Sign In With Google</button>
+        <button className='gsign-in' onClick={() => googleSignIn()}>Sign In With Google</button>
     </div>
     );
 }
