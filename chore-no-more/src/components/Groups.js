@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
 import { Chores } from './Chores';
@@ -24,7 +24,6 @@ export function Groups() {
   const [addedMember, setAddedMemeber] = useState(false);
 
  
-
   useEffect(() => {
 
     async function getGroupId() {
@@ -44,6 +43,8 @@ export function Groups() {
       setLoading(false);
     }
 
+
+
     async function getGroupName(groupId) {
       const { data } = await supabase
         .from("Groups")
@@ -57,7 +58,7 @@ export function Groups() {
 
     async function displayMembers(){
       const {error, data} = await supabase
-      .from('Users')
+      .from("Users")
       .select('Name')
       .eq('Group', groupId)
       if(error){
@@ -68,11 +69,13 @@ export function Groups() {
         setNameList(data)
       }
     }
+
     setChangedName(false); 
     setAddedMemeber(false);
     getGroupId();
     displayMembers();
   }, [session, exist, changedName, groupId, addedMember]);
+
 
   async function createGroup() {
     const { error } = await supabase
@@ -108,6 +111,8 @@ export function Groups() {
     .eq('Email', member)
     if(error){
       console.log(error);
+    } else {
+      console.log("No error");
     }
     else{
       setAddedMemeber(true);
@@ -160,6 +165,7 @@ export function Groups() {
 
 
   return (
+    
     <div>
       {loading ? (
         <div>Loading...</div>
@@ -169,6 +175,7 @@ export function Groups() {
           {exist ? (
             <div>
               <Chores groupId = {groupId} />
+
               
               <div class='users-display'>
                 <div class='header'>

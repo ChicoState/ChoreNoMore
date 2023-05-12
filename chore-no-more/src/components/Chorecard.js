@@ -24,7 +24,7 @@ const Chorecard = ({ chore, onDelete, onClaim, name}) => {
   }
 
   const claimChore = async () => {
-    console.log(session);
+   // console.log(session);
     const{error, data} = await supabase
     .from('Chores')
     .update({Assignee : name})
@@ -33,7 +33,7 @@ const Chorecard = ({ chore, onDelete, onClaim, name}) => {
       console.log(error)
     }
     if(data){
-      console.log(data)
+      //console.log(data)
     }
     onClaim(chore.id);
   }

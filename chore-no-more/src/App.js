@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login';

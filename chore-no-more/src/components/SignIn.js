@@ -41,6 +41,7 @@ export function SignIn() {
       <div>
         <div className='page-break'></div>
         <form className='sign-in'>
+
           <span> <b>Sign In</b></span><br></br><br /><br />
           Email:<br></br>
           <input type="text" onChange={(e) => setEmail(e.target.value)} />
@@ -54,5 +55,6 @@ export function SignIn() {
         <button id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
         
       </div>
+
     );
 }

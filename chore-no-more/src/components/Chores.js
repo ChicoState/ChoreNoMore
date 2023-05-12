@@ -18,6 +18,7 @@ export function Chores({groupId}) {
     const [buttonPopup, setButtonPopup] = useState(false);
     const [username, setUserName] = useState();
 
+
     useEffect(() => {
 
       async function fetchChores(){
@@ -50,7 +51,7 @@ export function Chores({groupId}) {
       }
 
       getUsersName();
-    
+
       fetchChores();
       setAddedChores(false);
       setClaimed(false);
@@ -91,7 +92,7 @@ export function Chores({groupId}) {
       console.log(error)
     }
     if (data) {
-      console.log(data)
+     // console.log(data)
     }
     setDeleted(true);
   }
