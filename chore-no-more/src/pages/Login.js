@@ -5,7 +5,7 @@ import { SignIn } from '../components/SignIn';
 import { Chores } from '../components/Chores';
 import { Stylesheet } from '../components/Stylesheet'
 import Navbar from '../Navbar'
-import { GoogleSignIn } from '../components/GoogleSignIn';
+//import { GoogleSignIn } from '../components/GoogleSignIn';
 import SignUp from '../components/SignUp';
 
 function Login(){
@@ -31,7 +31,7 @@ function Login(){
                 <>
                 <SignIn />
                 <SignUp />
-                <GoogleSignIn />
+                {/*<GoogleSignIn />*/}
                 </>
             )}
             </div>
