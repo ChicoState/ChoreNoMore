@@ -112,9 +112,6 @@ export function Groups() {
     if(error){
       console.log(error);
     } else {
-      console.log("No error");
-    }
-    else{
       setAddedMemeber(true);
     }
     /*const {error2} = await supabase
