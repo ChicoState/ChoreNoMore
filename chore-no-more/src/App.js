@@ -1,39 +1,21 @@
 import './App.css';
 import React from 'react';
 import { useSession, useSessionContext } from '@supabase/auth-helpers-react';
-import { Groups } from './components/Groups';
-import { SignIn } from './components/SignIn';
-import { Stylesheet } from './components/Stylesheet'
-import Navbar from './Navbar'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Login from './pages/Login';
+import ErrorPage from './pages/ErrorPage';
+import Instructions from './pages/HowToUse';
+import SignUp from './components/SignUp';
 
 function App() {
-  const { isLoading } = useSessionContext();
-  const session = useSession();
-
-  if (isLoading) {
-    return <>Loading...</>
-  }
 
   return (
-    <div className="App">
-      <Navbar />
-      <div style={{ width: "400px", margin: "30px auto" }}>
-        {session ? (
-          <>
-            <Stylesheet />
-            
-            <br></br>
-            <Groups />
-          </>
-        ) : (
-          <SignIn />
-        )}
-      </div>
-    </div>
+      <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/instructions' element={<Instructions/>} />
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
   );
 }
-    
-
 
 export default App;

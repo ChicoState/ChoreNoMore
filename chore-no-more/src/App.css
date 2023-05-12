@@ -4,21 +4,6 @@
 }
 
 
-.App-header {
-  background-color: #383e49;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(224, 11, 11);
-}
-
-.App-link {
-  color: #02141a;
-}
-
 
 
 .page-break {
@@ -26,17 +11,8 @@
   background-color: tan;
   width: 2px;
   top: 200px;
-  bottom: 200px;
+  bottom: 70px;
   left: 50%;
-}
-
-.welcome {
-  color: black;
-}
-
-.header {
-  background-color: tan;
-  font-weight: bold;
 }
 
 .create-account {
@@ -48,7 +24,7 @@
   
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 150px; /* height of box model is taller */
+  height: 300px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
@@ -64,7 +40,7 @@
 
   border-radius: 25px;
   border: 1px solid black; /*sets border thickness to 1 pixel, solid line, red*/
-  height: 150px; /* height of box model is taller */
+  height: 300px; /* height of box model is taller */
   width: 300px; /* width is 300 pixels instead of spanning the entire line*/
   padding: 20px; /*adds spacing between content and border*/
   margin: 20px; /*adds space outside the border*/
@@ -72,43 +48,205 @@
 
 #create-account-button {
   position: absolute;
-  top: 360px;
+  top: 500px;
   left: 270px;
 }
 
 #sign-in-button {
   position: absolute;
-  top: 360px;
+  top: 500px;
   right: 290px;
 }
 
-.button1 {
+.gsign-in {
   background-color: lightgrey;
   position: absolute;
+  top: 80px;
+  right: 35px;
+}
+
+#sign-out {
+  background-color: #333 !important;
+  color: white;
+  position: relative;
+  top: 20px;
+}
+
+.chores-display {
+  position: relative;
+  left: 300px;
   top: 50px;
-  right: 20px;
+
+  display: flex;
+  
+  
+  overflow-x: auto;
+  overflow: hidden;
+  border: 5px solid black; /*sets border thickness to 1 pixel, solid line, red*/
+  height: 500px; /* height of box model is taller */
+  width: 410px; /* width is 300 pixels instead of spanning the entire line*/
+  padding: 0; /*adds spacing between content and border*/
+  margin: 20px; /*adds space outside the border*/
 }
 
-#todo {
+.users-display {
+  position: relative;
+  right: 300px;
+  bottom: 470px;
+  display: flexbox;
+  overflow: scroll;
+  border: 5px solid black; /*sets border thickness to 1 pixel, solid line, red*/
+  height: 300px; /* height of box model is taller */
+  width: 500px; /* width is 300 pixels instead of spanning the entire line*/
+  padding: 0; /*adds spacing between content and border*/
+  margin: 20px; /*adds space outside the border*/
+}
+
+.header {
+  flex-shrink: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 50;
+  font-weight: bold;
+  justify-content: center;
   position: absolute;
-  top: 100px;
-  left: 130px;
+  top: 0px;
+  border-bottom: 2px solid black;
+  z-index: 2;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
 }
 
-#list1 {
+.body {
+  padding: 10px;
+  margin-top: 40px;
+  display: grid;
   position: absolute;
-  top: 200px;
-  left: 140px;
-}
-#list2 {
-  position: absolute;
-  top: 470px;
-  left: 140px;
+  align-self: center;
+  width: 100%;
+  top: 10px;
+  bottom: 9%;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  overflow: scroll;
+
+
 }
 
-#comp {
+.body2 {
+  padding-top: 40px;
+  margin-top: 40px;
+  display: list-item;
   position: absolute;
-  top: 400px;
-  left: 100px;
+  width: 100%;
+  top: 10px;
+  bottom: 10%;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  overflow: auto;
+  
+  
+
 }
+.footer {
+  flex-shrink: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 50;
+  border-top: 2px solid black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: absolute;
+  bottom: 0px;
+
+
+}
+
+.divider {
+  width: 15px;
+  height: auto;
+  display: inline-block;
+}
+
+h1,h2,h3 {
+  margin: 0;
+}
+
+
+nav {
+  background: var(--primary);
+  padding: 10px 20px;
+  text-align: center;
+}
+nav a {
+  color: #f2f2f2;
+  margin: 10px;
+  display: inline-block;
+}
+nav h1 {
+  color: #fff;
+}
+.page {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+
+/* smoothie grid */
+.chore-card {
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.chore-card .buttons {
+  text-align: center;
+}
+.chore-card i {
+  color: #bbb;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 1.2em;
+  padding: 5px;
+  background: #eee;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* forms */
+/*form {
+  background: #fff;
+  padding: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 6px;
+}*/
+form input, form textarea {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  margin: 10px 0 20px 0;
+}/*
+form button {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-family: "Poppins";
+  cursor: pointer;
+}
+
+:root {
+  --primary: #12bca2;
+  --secondary: #6d15df;
+}
+*/

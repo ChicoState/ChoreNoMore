@@ -1,6 +1,7 @@
 import React from 'react';
 import { supabase } from '../supabaseClient';
 import { useState } from 'react';
+import '../App.css';
 
 export function SignIn() {
     const [ email, setEmail ] = useState('');
@@ -37,41 +38,23 @@ export function SignIn() {
       }
 
     return (
-        <div>
-        <form className='create-account'>
-            <span className='header'>Create Account</span><br></br>
-            Email:<br></br>
-            <input type="text" onChange={(e) => setEmail(e.target.value)} />
-            <br></br>
-            Password:<br></br>
-            <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            />
-            <br></br>
-            Name:<br></br>
-            <input
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-            />
-            <br></br>
-            
-        </form>
-        <button id='create-account-button' onClick={() => supabaseSignUp()}>Create Account</button>
+      <div>
         <div className='page-break'></div>
         <form className='sign-in'>
-            <span className='header'>Sign In</span><br></br>
-            Email:<br></br>
-            <input aria-label="Sign In Email" type="text" onChange={(e) => setEmail(e.target.value)} />
-            <br></br>
-            Password:<br></br>
-            <input aria-label="Sign In Password"
+
+          <span> <b>Sign In</b></span><br></br><br /><br />
+          Email:<br></br>
+          <input type="text" onChange={(e) => setEmail(e.target.value)} />
+              
+          Password:
+          <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            />
-            <br></br>
+          />
         </form>
-        <button aria-label="Sign In Button" id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
-    </div>
+        <button id='sign-in-button' onClick={() => supabaseSignIn()}>Sign In</button>
+        
+      </div>
+
     );
 }

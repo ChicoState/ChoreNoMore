@@ -13,15 +13,11 @@ export default function Navbar () {
             {session ? (
                 <ul>
                     <CustomLink to="/instructions">How To Use</CustomLink>
-                    <CustomLink to="/groups">Groups</CustomLink>
-                    <CustomLink to="/calendar">Calendar</CustomLink>
                     <SignOut />
                 </ul>
             ) : (
                 <ul>
                     <CustomLink to="/instructions">How To Use</CustomLink>
-                    <CustomLink to="/groups">Groups</CustomLink>
-                    <CustomLink to="/calendar">Calendar</CustomLink>
                 </ul>
             )}
         </nav>

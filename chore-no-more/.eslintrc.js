@@ -22,6 +22,9 @@ module.exports = {
     "rules": {
         "react/prop-types": "warn",
         "react/jsx-key": "warn",
+        "no-unused-vars": "warn",
+        "react/react-in-jsx-scope": "warn",
+        "react/no-unknown-property": "warn",
         "lcom/lcom4": "warn",
         "complexity": ["warn", 10]
     }

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient';
 import { useSession} from '@supabase/auth-helpers-react';
 import { Chores } from './Chores';
-import   Chorecard   from './Chorecard';
+import AddPopup from './AddPopup';
+import LeavePopup from './LeavePopup';
+import ChangePopup from './ChangePopup';
 
 
 export function Groups() {
@@ -16,8 +18,12 @@ export function Groups() {
   const [newName, setNewName] = useState(null);
   const [changedName, setChangedName] = useState(false);
   const [nameList, setNameList] = useState([]);
-  
+  const [addPopup, setAddPopup] = useState(false);
+  const [leavePopup, setLeavePopup] = useState(false);
+  const [changePopup, setChangePopup] = useState(false);
+  const [addedMember, setAddedMemeber] = useState(false);
 
+ 
   useEffect(() => {
 
     async function getGroupId() {
@@ -63,11 +69,13 @@ export function Groups() {
         setNameList(data)
       }
     }
-    setChangedName(false);
+
+    setChangedName(false); 
+    setAddedMemeber(false);
     getGroupId();
     displayMembers();
-    
-  }, [session, exist, changedName, groupId]);
+  }, [session, exist, changedName, groupId, addedMember]);
+
 
   async function createGroup() {
     const { error } = await supabase
@@ -104,7 +112,7 @@ export function Groups() {
     if(error){
       console.log(error);
     } else {
-      console.log("No error");
+      setAddedMemeber(true);
     }
     /*const {error2} = await supabase
     .from('Groups')
@@ -164,25 +172,61 @@ export function Groups() {
           {exist ? (
             <div>
               <Chores groupId = {groupId} />
+
               
-             
-              <h2>Your Household</h2>
-              <p><strong>{groupsName}</strong></p>
-              <h2>Members</h2>
-              {nameList.map(todo => <div>{todo.Name}</div>)}
-              <br></br>
-
-              <h2>Add Member to household by email</h2>
-
-              <input type="text" onChange={(e) => setMember(e.target.value)} />
-              <button onClick={() => addMember()}>Add Member</button><br/>
-
-
-              <h2>Change Household Name</h2>
-              <input type="text" onChange={(e) => setNewName(e.target.value)} />
-              <button onClick={() => changeName()}>Change</button><br/><br/>
-              
-              <button onClick={() => leaveGroup()}>Leave Group</button>
+              <div class='users-display'>
+                <div class='header'>
+                  <p><strong>Your Household: {groupsName}</strong></p>
+                  <h2>Members</h2><div />
+                </div>
+                <div className='body2'>
+                  <br />
+                  
+                    {nameList.map(todo => <div>{todo.Name}</div>)}
+                  
+                </div>
+                <div class='footer'>
+                  <button id='addMember' onClick={() => setAddPopup(true)}>Add Member</button>
+                  <AddPopup trigger={addPopup} setTrigger={setAddPopup}>
+                    <h2>Add a new member</h2><br />
+                    <input type="text" onChange={(e) => setMember(e.target.value)} />
+                    <div class='divider' />
+                    <button onClick={
+                      () => {
+                          addMember()
+                          setAddPopup(false)
+                        }}>Add Member</button>
+                  </AddPopup>
+                  <div class='divider' />
+                  <button id='leaveGroup' onClick={() => setLeavePopup(true)}>Leave Group</button>
+                  <LeavePopup trigger={leavePopup} setTrigger={setLeavePopup}>
+                    <h2>Are you sure you want to leave this group?</h2><br />
+                    <button onClick={
+                      () => {
+                          leaveGroup()
+                          setLeavePopup(false)
+                        }}>Yes</button>
+                    <div class='divider' />
+                    <button onClick={
+                      () => {
+                          setLeavePopup(false)
+                        }}>No</button>
+                  </LeavePopup>
+                  <div class='divider' />
+                  <button onClick={() => setChangePopup(true)}>Change Household Name</button><br/>
+                  <ChangePopup trigger={changePopup} setTrigger={setChangePopup}>
+                    <h2>Enter New Household Name</h2><br />
+                    <input type="text" onChange={(e) => setNewName(e.target.value)} />
+                    <div class='divider' />
+                    <button onClick={
+                      () => {
+                          changeName()
+                          setChangePopup(false)
+                        }}>Change</button>
+                  </ChangePopup>
+                </div>
+                
+              </div>
             </div>
           ) : (
             <div>

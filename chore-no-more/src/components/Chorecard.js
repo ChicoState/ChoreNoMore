@@ -5,9 +5,6 @@ import { useSession} from '@supabase/auth-helpers-react';
 
 
 
-
-
-
 const Chorecard = ({ chore, onDelete, onClaim, name}) => {
 
   const session = useSession();
@@ -44,10 +41,10 @@ const Chorecard = ({ chore, onDelete, onClaim, name}) => {
   return (
     <div className="chore-card">
       <h3>{chore.Chore}</h3>
-     <div> <div>User: {chore.Assignee}</div> </div>
+     <div> <div>User: {chore.Assignee}</div> </div><br />
       <div className="buttons">
-        <i className="material-icons" onClick={claimChore}>claim</i>
-        <i className="material-icons" onClick={handleDelete}>delete</i>
+        <i className="material-icons" onClick={claimChore}>Claim</i>
+        <i className="material-icons" onClick={handleDelete}>Complete</i>
       </div>
       </div>
   )
